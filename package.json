@@ -1,26 +1,19 @@
 {
   "name": "redshift-manager",
   "version": "0.0.1",
-  "description": "a webui for Redshift database admins",
+  "description": "A webui for Redshift database admins",
+  "author": "Paul Nimusiima",
   "dependencies": {
-    "@mui/base": "^5.0.0-beta.23",
-    "body-parser": "^1.20.2",
-    "express": "^4.18.2",
-    "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1"
   },
   "scripts": {
-    "client": "react-scripts start",
-    "server": "node proxy-server.js",
-    "start": "concurrently \"npm run server\" \"npm run client\""
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject"
   },
-  "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "concurrently": "^8.2.2"
-  },
   "browserslist": {
     "production": [
       ">0.2%",

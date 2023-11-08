@@ -1,0 +1,6 @@
+{
+    "short name": "redshift manager",
+    "name": "redshift manager",
+    "start_url": ".",
+    "display": "standalone"
+}
