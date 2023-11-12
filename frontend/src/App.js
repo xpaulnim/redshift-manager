@@ -44,24 +44,20 @@ function DatabaseTreeItemComponent(props) {
 
 function DatabaseDetails(props) {
   return (
-    <Box></Box>
-  )
-}
-
-function SchemaDetailsTabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box> {children} </Box>
-      )}
-    </div>
+    <TabContainer tabs={[
+      {
+        "header": "Tables", 
+        "content": <p>This database has the following schemas</p>
+      },
+      {
+        "header": "Details",
+        "content": <p>Details, like when the database was created and who created it, whether it is an external db, if so what it's iam is and the store it uses</p>
+      }, 
+      {
+        "header": "Permissions",
+        "content": <p>Who can use this database</p>
+      }
+    ]} />
   )
 }
 
@@ -119,7 +115,6 @@ function SchemaDetailsTab(props) {
   )
 
   return (
-    <Box>
       <TabContainer tabs={[
         {
           "header": "Tables", 
@@ -133,9 +128,38 @@ function SchemaDetailsTab(props) {
           "header": "Permissions",
           "content": permissionsPanel
         }
-      ]}>
-      </TabContainer>
-    </Box>
+      ]} />
+  )
+}
+
+function TableDetailsTab(props) {
+  return (
+    <TabContainer tabs={[
+      {
+        "header": "Columns", 
+        "content": <p>A table of column name, type and comment</p>
+      },
+      {
+        "header": "Sample data",
+        "content": <p>Select top n from the table</p>
+      }, 
+      {
+        "header": "details",
+        "content": <p>Type eg external, if external storage location & properties, Created At, table Id and other stuff from table info </p>
+      },
+      {
+        "header": "Permissions",
+        "content": <p>Who can access this table and what can they do</p>
+      },
+      {
+        "header": "History",
+        "content": <p>DDL statements that have previously been run against this table</p>
+      },
+      {
+        "header": "Insights",
+        "content": <p>Breakdown of the previous access to this table. eg queries over the last n days, who queries the table and how much it has grown</p>
+      }
+    ]} />
   )
 }
 
@@ -143,8 +167,8 @@ export function App() {
     const count = useSelector((state) => state.counter.value)
     const dispatch = useDispatch()
     const [objectSelected, showObjectDetails] = useState({
-      "objectType": "",
-      "objectName": ""
+      "objectType": "database",
+      "objectName": "dev"
     })
 
     return (
@@ -169,20 +193,22 @@ export function App() {
                <p>Owner: {databases[0].schemas[0].owner}</p>
                <p>Comment: {databases[0].schemas[0].comment}</p>
                
+               <div hidden={!(objectSelected.objectType === 'database')}>
+                  <h3>database {objectSelected.objectName} selected</h3>
+
+                  <DatabaseDetails database={databases[0]} />
+                </div>
+
                <div  hidden={!(objectSelected.objectType === 'schema')}>
                   <h3>schema {objectSelected.objectName} is selected</h3>
 
                   <SchemaDetailsTab schema={objectSelected.objectName} />
                 </div>
 
-                <div hidden={!(objectSelected.objectType === 'database')}>
-                  <h3>database {objectSelected.objectName} selected</h3>
-
-                  <DatabaseDetails database={databases[0]} />
-                </div>
-
                 <div hidden={!(objectSelected.objectType === 'table')}>
-                  <h3>table {objectSelected.objectName} is selected</h3> 
+                  <h3>table {objectSelected.objectName} is selected</h3>
+
+                  <TableDetailsTab table={objectSelected.objectName} />
                 </div>
             </Grid>
         </Grid>   
