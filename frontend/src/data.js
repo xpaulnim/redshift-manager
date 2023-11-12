@@ -83,28 +83,32 @@ export const databases = [
             {
                 "id": "4",
                 "name": "public",
+                "owner": "admin",
+                "comment": "default schema",
                 "tables": [
                     {
                         "id": "1",
                         "name": "users",
                         "owner": "admin",
-                        "size": "50"
+                        "size": "50",
+                        "created_at": "2023-08-01 12:30:05",
                     },
                     {
                         "id": "2",
-                        "name": "transction",
+                        "name": "transaction",
                         "owner": "admin",
-                        "size": "50"
+                        "size": "50",
+                        "created_at": "2023-08-01 12:30:05",
                     },
                     {
                         "id": "3",
                         "name": "ad_events",
                         "owner": "admin",
-                        "size": "500"
+                        "size": "500",
+                        "created_at": "2023-08-01 12:30:05",
                     }
                 ]
             }
         ]
     }
 ]
-
