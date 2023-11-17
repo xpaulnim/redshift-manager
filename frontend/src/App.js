@@ -9,6 +9,7 @@ import {add, subtract} from "./slices"
 import { TabContainer, TabPanel } from './components/TabComponent.js'
 
 import {databases} from './data.js'
+import { useGetUsersQuery } from './api.js'
 
 function DatabaseTreeItemComponent(props) {
   return (
@@ -171,46 +172,52 @@ export function App() {
       "objectName": "dev"
     })
 
+    const [state, setState] = useState({})
+
+    const {userData, error, isLoading} = useGetUsersQuery()
+
     return (
         <Grid container spacing={2} >
-            <Grid item xs={4}>
-                <TreeView 
-                  defaultCollapseIcon={<ExpandMoreIcon />}
-                  defaultExpandIcon={<ChevronRightIcon />} >
-                  
-                  { 
-                    databases.map((database) => 
-                      <DatabaseTreeItemComponent 
-                        database={database} 
-                        onDbObjectSelected={showObjectDetails}/>
-                    )
-                  }
-                </TreeView>
-            </Grid>
+          <Grid item xs={4}>
+              <TreeView 
+                defaultCollapseIcon={<ExpandMoreIcon />}
+                defaultExpandIcon={<ChevronRightIcon />} >
+                
+                { 
+                  databases.map((database) => 
+                    <DatabaseTreeItemComponent 
+                      database={database} 
+                      onDbObjectSelected={showObjectDetails}/>
+                  )
+                }
+              </TreeView>
+          </Grid>
 
-            <Grid item xs={8}>
-               <h2>{databases[0].schemas[0].name}</h2>
-               <p>Owner: {databases[0].schemas[0].owner}</p>
-               <p>Comment: {databases[0].schemas[0].comment}</p>
-               
-               <div hidden={!(objectSelected.objectType === 'database')}>
-                  <h3>database {objectSelected.objectName} selected</h3>
+          <Grid item xs={8}>
+              <div > userData : {userData} </div>
 
-                  <DatabaseDetails database={databases[0]} />
-                </div>
+              <h2>{databases[0].schemas[0].name}</h2>
+              <p>Owner: {databases[0].schemas[0].owner}</p>
+              <p>Comment: {databases[0].schemas[0].comment}</p>
+              
+              <div hidden={!(objectSelected.objectType === 'database')}>
+                <h3>database {objectSelected.objectName} selected</h3>
 
-               <div  hidden={!(objectSelected.objectType === 'schema')}>
-                  <h3>schema {objectSelected.objectName} is selected</h3>
+                <DatabaseDetails database={databases[0]} />
+              </div>
 
-                  <SchemaDetailsTab schema={objectSelected.objectName} />
-                </div>
+              <div  hidden={!(objectSelected.objectType === 'schema')}>
+                <h3>schema {objectSelected.objectName} is selected</h3>
 
-                <div hidden={!(objectSelected.objectType === 'table')}>
-                  <h3>table {objectSelected.objectName} is selected</h3>
+                <SchemaDetailsTab schema={objectSelected.objectName} />
+              </div>
 
-                  <TableDetailsTab table={objectSelected.objectName} />
-                </div>
-            </Grid>
+              <div hidden={!(objectSelected.objectType === 'table')}>
+                <h3>table {objectSelected.objectName} is selected</h3>
+
+                <TableDetailsTab table={objectSelected.objectName} />
+              </div>
+          </Grid>
         </Grid>   
     )
 }
