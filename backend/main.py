@@ -10,6 +10,36 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+@app.get("db_outline")
+def read_item():
+    return {
+        "data": [
+            {
+                "name": "dev",
+                "schemas": [
+                    {
+                        "name": "public",
+                        "tables": [
+                            "transactions",
+                            "click_events",
+                            "purchases",
+                            "sample_table"
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "prod",
+                "schemas": [
+                    {
+                        "name": "public",
+                        "tables": [
+                            "transactions",
+                            "click_events",
+                            "purchases"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }

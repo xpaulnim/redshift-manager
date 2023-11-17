@@ -2,37 +2,7 @@ import React, {useState} from 'react'
 import {Grid} from "@mui/material";
 import DbObjectDetails from "./DbObjectDetails";
 import {DbObjectTreeView} from "./DbObjectTreeView";
-
-
-let databasesOutline = [
-    {
-        "name": "dev",
-        "schemas": [
-            {
-                "name": "public",
-                "tables": [
-                    "transactions",
-                    "click_events",
-                    "purchases",
-                    "sample_table"
-                ]
-            }
-        ]
-    },
-    {
-        "name": "prod",
-        "schemas": [
-            {
-                "name": "public",
-                "tables": [
-                    "transactions",
-                    "click_events",
-                    "purchases"
-                ]
-            }
-        ]
-    }
-]
+import {useDispatch, useSelector} from "react-redux";
 
 export function DbObjectExplorer(props) {
     const [objectSelected, showObjectDetails] = useState({
@@ -40,11 +10,14 @@ export function DbObjectExplorer(props) {
         "objectName": "dev"
     })
 
+    const dispatch = useDispatch()
+    const dbOutline = useSelector(state => state.dbOutline)
+
     return (
         <Grid container spacing={2}>
             <Grid item xs={4}>
                 <DbObjectTreeView
-                    databaseOutline={databasesOutline}
+                    databaseOutline={dbOutline}
                     onDbObjectSelected={showObjectDetails}/>
             </Grid>
 
