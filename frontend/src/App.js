@@ -7,7 +7,6 @@ import {DbObjectExplorer} from "./app/DbObjectExplorer";
 
 export function App() {
     const count = useSelector((state) => state.counter.value)
-    const dispatch = useDispatch()
 
     return (
         <Box>
