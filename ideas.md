@@ -9,7 +9,8 @@
 [] table / view popularity - determine this by checking the query history 
 [] generate plans for past queries
 [] create and manage column masks visually eg search for a column and choose what mask to use - policy can be created for you
-
+[] add comments to objects
+[] search object comments
 
 #### name ideas
 * redshift buddy
