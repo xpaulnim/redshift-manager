@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {Grid} from "@mui/material"
+import {Grid, Stack, TextField} from "@mui/material"
 import DbObjectDetails from "./DbObjectDetails"
 import {DbObjectTreeView} from "./DbObjectTreeView"
 import {useDispatch, useSelector} from "react-redux"
@@ -25,11 +25,14 @@ export function DbObjectExplorer(props) {
 
     return (
         <Grid container spacing={2}>
-            <Grid item xs={4}>
-                <DbObjectTreeView
-                    databaseOutline={dbOutline.data}
-                    onDbObjectSelected={ showObjectDetails }/>
-            </Grid>
+            <Stack  spacing={2}>
+                <TextField label="Search" id="outlined-basic" variant="outlined" />
+                <Grid item xs={4}>
+                    <DbObjectTreeView
+                        databaseOutline={dbOutline.data}
+                        onDbObjectSelected={ showObjectDetails }/>
+                </Grid>
+            </Stack>
 
             <Grid item xs={8}>
                 <button onClick={ () => dispatch(queryBackendThunk()) }>fetch details</button>

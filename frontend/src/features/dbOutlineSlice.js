@@ -2,7 +2,7 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 
 const databasesOutlineInitState = {
-    data: [],
+    data: {},
     status: 'init',
     error: null
 }
@@ -28,7 +28,7 @@ const dbOutlineSlice = createSlice({
         builder.addCase(queryBackendThunk.pending, (state, action) => {
             console.log("pending state" + state)
             console.log("pending state" + action)
-            state.status = 'loading'
+            state.status = 'pending'
         }).addCase('database/fetchDbOutline/fulfilled', (state, action) => {
             console.log("state" + state)
             console.log("state" + action)

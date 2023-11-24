@@ -1,0 +1,10 @@
+name: redshift-manager
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - nodejs
+  - python=3.8
+  - codecov
+  - pip:
+      - -r backend/requirements.txt

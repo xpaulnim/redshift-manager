@@ -1,2 +1,5 @@
 fastapi
+sqlalchemy
+sqlalchemy-redshift
+redshift-connector
 uvicorn[standard]

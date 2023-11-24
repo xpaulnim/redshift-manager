@@ -3,32 +3,31 @@ import {TreeItem, TreeView} from "@mui/x-tree-view";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
-function DatabaseTreeItemComponent({database, onDbObjectSelected}) {
+function DatabaseTreeItemComponent({database_name, schema_obj, onDbObjectSelected}) {
     return (
         <TreeItem
-            key={database.name}
-            nodeId={database.name}
-            label={database.name}
-            onClick={() => onDbObjectSelected({"objectType": 'database', "objectName": database.name})}>
+            key={database_name}
+            nodeId={database_name}
+            label={database_name}
+            onClick={() => onDbObjectSelected({"objectType": 'database', "objectName": database_name})}>
 
             {
-                database.schemas.map((schema) =>
-
+                Object.entries(schema_obj).map(([schema_name, tables_list]) =>
                     <TreeItem
-                        key={database.name.concat('.', schema.name)}
-                        nodeId={database.name.concat('.', schema.name)}
-                        label={schema.name}
-                        onClick={() => onDbObjectSelected({"objectType": 'schema', "objectName": schema.name})}>
+                        key={database_name.concat('.', schema_name)}
+                        nodeId={database_name.concat('.', schema_name)}
+                        label={schema_name}
+                        onClick={() => onDbObjectSelected({"objectType": 'schema', "objectName": schema_name})}>
 
                         {
-                            schema.tables.map((table) =>
+                            tables_list.map((table_name) =>
                                 <TreeItem
-                                    key={database.name.concat('.', schema.name, '.', table)}
-                                    nodeId={database.name.concat('.', schema.name, '.', table)}
-                                    label={table}
+                                    key={database_name.concat('.', schema_name, '.', table_name)}
+                                    nodeId={database_name.concat('.', schema_name, '.', table_name)}
+                                    label={table_name}
                                     onClick={() => onDbObjectSelected({
                                         "objectType": 'table',
-                                        "objectName": table
+                                        "objectName": table_name
                                     })}
                                 />
                             )
@@ -47,9 +46,10 @@ export function DbObjectTreeView({databaseOutline, onDbObjectSelected}) {
             defaultExpandIcon={<ChevronRightIcon/>}>
 
             {
-                databaseOutline.map((database) =>
+                Object.entries(databaseOutline).map(([database_name, schema_obj]) =>
                     <DatabaseTreeItemComponent
-                        database={database}
+                        database_name={database_name}
+                        schema_obj={schema_obj}
                         onDbObjectSelected={onDbObjectSelected}/>
                 )
             }

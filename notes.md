@@ -27,5 +27,5 @@ typically written in slice files
 #### slice
 createSlice generates an action creator for every reducer function defined in reducers field
 and the generated action type includes the name of the slice
-`extraReducers`param in `createSlice()` allows the slice reducer to respone to actions not defined as part of the slice's
+`extraReducers`param in `createSlice()` allows the slice reducer to response to actions not defined as part of the slice's
 reducers field
