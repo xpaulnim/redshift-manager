@@ -1,17 +1,24 @@
 import React from 'react'
-import {useSelector, useDispatch} from "react-redux"
-import {Box} from "@mui/material"
+import {Box, Grid} from "@mui/material"
 
 import {DbObjectExplorer} from "./app/DbObjectExplorer";
+import {DbObjectTreeView} from "./app/MainNav";
 
 
 export function App() {
-    const count = useSelector((state) => state.counter.value)
-
     return (
         <Box>
             <h1>Redshift manager</h1>
-            <DbObjectExplorer/>
+
+            <Grid container spacing={2}>
+                <Grid item xs={2}>
+                    <DbObjectTreeView/>
+                </Grid>
+
+                <Grid item xs={10}>
+                    <DbObjectExplorer/>
+                </Grid>
+            </Grid>
         </Box>
     )
 }

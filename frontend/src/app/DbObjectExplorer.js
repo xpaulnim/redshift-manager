@@ -25,8 +25,9 @@ export function DbObjectExplorer(props) {
 
     return (
         <Grid container spacing={2}>
-            <Stack  spacing={2}>
-                <TextField label="Search" id="outlined-basic" variant="outlined" />
+            <Stack spacing={2}>
+                <TextField label="Filter" id="outlined-basic" variant="outlined" />
+
                 <Grid item xs={4}>
                     <DbObjectTreeView
                         databaseOutline={dbOutline.data}
