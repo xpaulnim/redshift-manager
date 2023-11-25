@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import counterReducer from '../features/counterSlice'
-import dbOutlineReducer from '../features/dbOutlineSlice'
+import fetchDbOutlineReducer from '../features/fetchDbOutlineSlice'
+import fetchDbOwnerReducer from '../features/fetchDatabaseOwnerSlice'
 
 export default configureStore ({
     reducer: {
-        counter: counterReducer,
-        dbOutline: dbOutlineReducer
+        dbOutline: fetchDbOutlineReducer,
+        dbOwner: fetchDbOwnerReducer,
     }
 })

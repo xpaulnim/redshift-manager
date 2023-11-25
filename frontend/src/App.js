@@ -2,8 +2,7 @@ import React from 'react'
 import {Box, Grid} from "@mui/material"
 
 import {DbObjectExplorer} from "./app/DbObjectExplorer";
-import {DbObjectTreeView} from "./app/MainNav";
-
+import {FeatureNavLeft} from "./app/MainNav";
 
 export function App() {
     return (
@@ -12,11 +11,11 @@ export function App() {
 
             <Grid container spacing={2}>
                 <Grid item xs={2}>
-                    <DbObjectTreeView/>
+                    <FeatureNavLeft/>
                 </Grid>
 
                 <Grid item xs={10}>
-                    <DbObjectExplorer/>
+                    <DbObjectExplorer />
                 </Grid>
             </Grid>
         </Box>

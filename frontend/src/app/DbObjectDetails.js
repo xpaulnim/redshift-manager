@@ -1,157 +1,71 @@
-import React from "react"
+import React, {useEffect} from "react"
 
 import {databases} from "../data"
-import {Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
-import {TabContainer} from "./TabComponent";
+import {Box} from "@mui/material"
+import DatabaseDetailsTab from "./DatabaseDetailsTab"
+import TableDetailsTab from "./TableDetailsTab"
+import SchemaDetailsTab from "./SchemaDetailsTab"
+import {useDispatch, useSelector} from "react-redux";
+import {fetchDatabaseOwnerThunk} from "../features/fetchDatabaseOwnerSlice";
 
-function DatabaseDetails(props) {
-    return (
-        <TabContainer tabs={[
-            {
-                "header": "Tables",
-                "content": <p>This database has the following schemas</p>
-            },
-            {
-                "header": "Details",
-                "content": <p>Details, like when the database was created and who created it, whether it is an external
-                    db, if so what it's iam is and the store it uses</p>
-            },
-            {
-                "header": "Permissions",
-                "content": <p>Who can use this database</p>
-            }
-        ]}/>
-    )
-}
 
-function SchemaDetailsTab(props) {
-    const _schema = databases[0].schemas[0]
+function objectTypeFromName(fullObjectName) {
+    console.log(fullObjectName)
 
-    const tablesPanel = (
-        <TableContainer component={Paper}>
-            <Table sx={{minWidth: 650}} size="small">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Name</TableCell>
-                        <TableCell>Owner</TableCell>
-                        <TableCell>Created at</TableCell>
-                        <TableCell>Size</TableCell>
-                    </TableRow>
-                </TableHead>
+    switch(fullObjectName.split(".").length) {
+        case 1:
+            return 'database'
+        case 2:
+            return 'schema'
+        case 3:
+            return 'table'
+        default:
+            console.log('There should not be that many dots in the object name lol')
 
-                <TableBody>
-                    {
-                        _schema.tables.map((row) => (
-                            <TableRow
-                                key={row.id}>
-                                <TableCell align="left">{row.name}</TableCell>
-                                <TableCell align="left">{row.owner}</TableCell>
-                                <TableCell align="left">{row.created_at}</TableCell>
-                                <TableCell align="left">{row.size}</TableCell>
-                            </TableRow>
-                        ))
-                    }
-                </TableBody>
-            </Table>
-        </TableContainer>
-    )
-
-    const detailsPanel = (
-        <TableContainer sx={{maxWidth: 300}} component={Paper}>
-            <Table size="small">
-                <TableBody>
-                    {
-                        ['id', 'name', 'owner', 'comment'].map((key) => (
-                            <TableRow size="small">
-                                <TableCell align="left">{key}</TableCell>
-                                <TableCell align="left">{_schema[key]}</TableCell>
-                            </TableRow>
-                        ))
-                    }
-                </TableBody>
-            </Table>
-        </TableContainer>
-    )
-
-    const permissionsPanel = (
-        <p>Permissions table ie user, action</p>
-    )
-
-    return (
-        <TabContainer tabs={[
-            {
-                "header": "Tables",
-                "content": tablesPanel
-            },
-            {
-                "header": "Details",
-                "content": detailsPanel
-            },
-            {
-                "header": "Permissions",
-                "content": permissionsPanel
-            }
-        ]}/>
-    )
-}
-
-function TableDetailsTab({tableId}) {
-    return (
-        <TabContainer tabs={[
-            {
-                "header": "Columns",
-                "content": <p>A table of column name, type and comment</p>
-            },
-            {
-                "header": "Sample data",
-                "content": <p>Select top n from the table</p>
-            },
-            {
-                "header": "details",
-                "content": <p>Type eg external, if external storage location & properties, Created At, table Id and
-                    other stuff from table info </p>
-            },
-            {
-                "header": "Permissions",
-                "content": <p>Who can access this table and what can they do</p>
-            },
-            {
-                "header": "History",
-                "content": <p>DDL statements that have previously been run against this table</p>
-            },
-            {
-                "header": "Insights",
-                "content": <p>Breakdown of the previous access to this table. eg queries over the last n days, who
-                    queries the table and how much it has grown</p>
-            }
-        ]}/>
-    )
+            return ''
+    }
 }
 
 export default function DbObjectDetails({objectSelected}) {
+    const objectType = objectTypeFromName(objectSelected)
+
+    // const [objectSelected, showObjectDetails] = useState({
+    //     "objectSelected": "dev"
+    // })
+
+    const dispatch = useDispatch()
+    const dbOwner = useSelector(state => state.dbOwner)
+    const dbOwnerStatus = useSelector(state => state.dbOwner.status)
+
+    useEffect(() => {
+        console.log("dbOwner:" + dbOwnerStatus)
+        if (dbOwnerStatus === 'init') {
+            dispatch(fetchDatabaseOwnerThunk())
+        }
+    }, [dbOwnerStatus, dispatch]);
 
     return (
         <Box>
-            <h2>{databases[0].schemas[0].name}</h2>
-            <p>Owner: {databases[0].schemas[0].owner}</p>
-            <p>Comment: {databases[0].schemas[0].comment}</p>
+            <h2>{objectSelected}</h2>
+            <p>Owner: {dbOwner.data.db_owner}</p>
+            <p>Comment: not sure how to get this yet</p>
 
-            <div hidden={!(objectSelected.objectType === 'database')}>
-                <h3>database {objectSelected.objectName} selected</h3>
+            <div hidden={!(objectType === 'database')}>
+                <h3>database {objectSelected} selected</h3>
 
-                <DatabaseDetails database={databases[0]}/>
+                <DatabaseDetailsTab database={databases[0]}/>
             </div>
 
-            <div hidden={!(objectSelected.objectType === 'schema')}>
-                <h3>schema {objectSelected.objectName} is selected</h3>
+            <div hidden={!(objectType === 'schema')}>
+                <h3>schema {objectSelected} is selected</h3>
 
-                <SchemaDetailsTab schema={objectSelected.objectName}/>
+                <SchemaDetailsTab schema={objectSelected}/>
             </div>
 
-            <div hidden={!(objectSelected.objectType === 'table')}>
-                <h3>table {objectSelected.objectName} is selected</h3>
+            <div hidden={!(objectType === 'table')}>
+                <h3>table {objectSelected} is selected</h3>
 
-                <TableDetailsTab table={objectSelected.objectName}/>
+                <TableDetailsTab table={objectSelected}/>
             </div>
         </Box>
     )

@@ -3,6 +3,19 @@ import os
 from db_util import Redshift
 
 
+def get_database_owner(redshift_client: Redshift, database_name: str):
+    query = f"""
+    select u.usename as db_owner,
+           db.database_name as db_name
+    from svv_redshift_databases db
+    left join pg_user u on db.database_owner = u.usesysid
+    where database_name = '{database_name}'
+    ;
+    """
+
+    return redshift_client.one(query)
+
+
 def get_database_object_hierarchy(redshift_client: Redshift) -> dict:
     query = """
     select database_name,

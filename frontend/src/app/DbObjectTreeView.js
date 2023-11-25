@@ -9,7 +9,7 @@ function DatabaseTreeItemComponent({database_name, schema_obj, onDbObjectSelecte
             key={database_name}
             nodeId={database_name}
             label={database_name}
-            onClick={() => onDbObjectSelected({"objectType": 'database', "objectName": database_name})}>
+            onClick={() => onDbObjectSelected({"objectSelected": database_name})}>
 
             {
                 Object.entries(schema_obj).map(([schema_name, tables_list]) =>
@@ -17,7 +17,7 @@ function DatabaseTreeItemComponent({database_name, schema_obj, onDbObjectSelecte
                         key={database_name.concat('.', schema_name)}
                         nodeId={database_name.concat('.', schema_name)}
                         label={schema_name}
-                        onClick={() => onDbObjectSelected({"objectType": 'schema', "objectName": schema_name})}>
+                        onClick={() => onDbObjectSelected({"objectSelected": database_name.concat('.', schema_name)})}>
 
                         {
                             tables_list.map((table_name) =>
@@ -26,8 +26,7 @@ function DatabaseTreeItemComponent({database_name, schema_obj, onDbObjectSelecte
                                     nodeId={database_name.concat('.', schema_name, '.', table_name)}
                                     label={table_name}
                                     onClick={() => onDbObjectSelected({
-                                        "objectType": 'table',
-                                        "objectName": table_name
+                                        "objectSelected": database_name.concat('.', schema_name, '.', table_name)
                                     })}
                                 />
                             )
