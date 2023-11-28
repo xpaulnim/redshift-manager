@@ -1,3 +1,5 @@
+import os
+
 import sqlalchemy
 from sqlalchemy.engine.url import URL
 
@@ -79,3 +81,14 @@ class Redshift:
                 return dict(row)
         else:
             return row
+
+
+def create_redshift_client(database: str, as_dict=False):
+    return Redshift(
+        host=os.environ['REDSHIFT_HOST'],
+        port=5439,
+        database=database,
+        username=os.environ['REDSHIFT_USERNAME'],
+        password=os.environ['REDSHIFT_PASSWORD'],
+        as_dict=as_dict,
+    )

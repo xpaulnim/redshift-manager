@@ -29,6 +29,21 @@ select col_name, col_description('jnimusiima_sandbox.credit_cards'::regclass, co
 from table_columns;
 ```
 
+#### object creation date
+when tables in a database were created. works only for the database you are connected to.
+so to you need to create a connection specifically to the database you want to pull table creation date from
+```sql
+select current_database(),
+       trim(nspname)   as schema_name,
+       trim(relname)   as table_name,
+       relcreationtime as creation_time
+from pg_class_info
+left join pg_namespace on pg_class_info.relnamespace = pg_namespace.oid
+where reltype != 0
+  and trim(nspname) not like 'pg_%'
+order by schema_name
+;
+```
 
 #### questions
 * what does regclass mean?

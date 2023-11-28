@@ -1,7 +1,7 @@
 import {TabContainer} from "./TabComponent";
 import React from "react";
 
-export default function TableDetailsTab({tableId}) {
+export default function TableDetailsTab({table}) {
     return (
         <TabContainer tabs={[
             {

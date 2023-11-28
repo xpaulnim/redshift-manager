@@ -9,8 +9,8 @@ const initialDatabaseOwnerState = {
 
 export const fetchDatabaseOwnerThunk = createAsyncThunk(
     'backend/fetchDatabaseOwner',
-    async () => {
-        const response = await axios.get('http://localhost:8000/database_owner/dev')
+    async (databaseName) => {
+        const response = await axios.get('http://localhost:8000/database_owner/' + databaseName)
 
         console.log(response.data)
 

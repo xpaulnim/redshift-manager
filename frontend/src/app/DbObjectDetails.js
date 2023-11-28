@@ -1,6 +1,5 @@
 import React, {useEffect} from "react"
 
-import {databases} from "../data"
 import {Box} from "@mui/material"
 import DatabaseDetailsTab from "./DatabaseDetailsTab"
 import TableDetailsTab from "./TableDetailsTab"
@@ -29,18 +28,16 @@ function objectTypeFromName(fullObjectName) {
 export default function DbObjectDetails({objectSelected}) {
     const objectType = objectTypeFromName(objectSelected)
 
-    // const [objectSelected, showObjectDetails] = useState({
-    //     "objectSelected": "dev"
-    // })
-
     const dispatch = useDispatch()
     const dbOwner = useSelector(state => state.dbOwner)
     const dbOwnerStatus = useSelector(state => state.dbOwner.status)
 
     useEffect(() => {
         console.log("dbOwner:" + dbOwnerStatus)
+
         if (dbOwnerStatus === 'init') {
-            dispatch(fetchDatabaseOwnerThunk())
+            console.log('dispatched')
+            dispatch(fetchDatabaseOwnerThunk(objectSelected))
         }
     }, [dbOwnerStatus, dispatch]);
 
@@ -53,7 +50,7 @@ export default function DbObjectDetails({objectSelected}) {
             <div hidden={!(objectType === 'database')}>
                 <h3>database {objectSelected} selected</h3>
 
-                <DatabaseDetailsTab database={databases[0]}/>
+                <DatabaseDetailsTab database={dbOwner.data.db_name}/>
             </div>
 
             <div hidden={!(objectType === 'schema')}>
