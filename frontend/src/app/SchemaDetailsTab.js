@@ -11,22 +11,13 @@ export default function SchemaDetailsTab({schema}) {
 
     const dispatch = useDispatch()
     const tablesInSchema = useSelector(state => state.tablesInSchema)
-    const tablesInSchemaStatus = useSelector(state => state.tablesInSchema.status)
 
     if (schema !== currentSchema.currentSchema && schema.split(".").length === 2) {
-        console.log("schema is " + schema.split("."))
+        console.log("schema is " + schema)
 
         setCurrentSchema({"currentSchema": schema})
         dispatch(fetchTablesInSchemaThunk(schema))
     }
-
-    useEffect(() => {
-        console.log("tablesInSchema: " + schema)
-
-        if (tablesInSchemaStatus === "init") {
-            dispatch(fetchTablesInSchemaThunk(schema))
-        }
-    }, [tablesInSchemaStatus, dispatch])
 
     const tablesPanel = (
         <TableContainer component={Paper}>

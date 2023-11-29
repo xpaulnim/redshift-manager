@@ -4,7 +4,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from db_util import Redshift
-from services.db_object_service import get_database_object_hierarchy, get_database_owner, get_tables_in_schema, get_db_schema_details
+from services.db_object_service import get_database_object_hierarchy, get_database_owner, get_tables_in_schema, get_db_schema_details, \
+    get_table_columns, get_table_preview
 
 app = FastAPI()
 redshift_client = Redshift(
@@ -70,4 +71,23 @@ def tables_in_schema(schema_name: str):
 
     return {
         "data": tables_details
+    }
+
+
+@app.get("/table_details/{table_name}")
+def table_details(table_name: str):
+    print("table_details" + table_name)
+
+    _db_name = table_name.split(".")[0]
+    _schema_name = table_name.split(".")[1]
+    _table_name = table_name.split(".")[2]
+
+    table_columns = get_table_columns(_db_name, _schema_name, _table_name)
+    _, table_preview = get_table_preview(_db_name, _schema_name, _table_name)
+
+    return {
+        "data": {
+            "table_columns": table_columns,
+            "table_preview": table_preview,
+        }
     }

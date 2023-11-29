@@ -1,14 +1,24 @@
 import React from 'react'
-import {Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
-import HistoryIcon from '@mui/icons-material/History';
-import StorageIcon from '@mui/icons-material/Storage';
-import TerminalIcon from '@mui/icons-material/Terminal';
+import {Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material"
+import HistoryIcon from '@mui/icons-material/History'
+import StorageIcon from '@mui/icons-material/Storage'
+import TerminalIcon from '@mui/icons-material/Terminal'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 export function FeatureNavLeft(props) {
     return (
         <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
             <nav aria-label="main mailbox folders">
                 <List>
+                    <ListItem disablePadding>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <TerminalIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="SQL Editor" />
+                        </ListItemButton>
+                    </ListItem>
+
                     <ListItem disablePadding>
                         <ListItemButton>
                             <ListItemIcon disablePadding>
@@ -21,18 +31,18 @@ export function FeatureNavLeft(props) {
                     <ListItem disablePadding>
                         <ListItemButton>
                             <ListItemIcon>
-                                <HistoryIcon />
+                                <AccountCircleIcon />
                             </ListItemIcon>
-                            <ListItemText primary="Queries" />
+                            <ListItemText primary="Users" />
                         </ListItemButton>
                     </ListItem>
 
                     <ListItem disablePadding>
                         <ListItemButton>
                             <ListItemIcon>
-                                <TerminalIcon />
+                                <HistoryIcon />
                             </ListItemIcon>
-                            <ListItemText primary="SQL Editor" />
+                            <ListItemText primary="Queries" />
                         </ListItemButton>
                     </ListItem>
                 </List>
