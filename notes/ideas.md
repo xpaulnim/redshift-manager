@@ -14,6 +14,7 @@
 - [ ] search object comments
 - [ ] table, schema, database growth over time
 - [ ] upload common file formats into redshift table
+- [ ] for redshift, WYSIWYG WLM management
 
 #### divergent features - 
 - [ ] upload common data formats for visualisation - sold as a way to stop users uploading company data to random websites 
@@ -22,6 +23,8 @@
 - [ ]  create generic masks like last name, email, phone number or address mask, then apply masks by selecting column and choosing one 
     from drop down or allow upload of file containing columns to be masked and mask to use
 - [ ] distinguish between tables and view
+- [ ] when a new redshift database connection, ask if user wants to enable certain useful defaults like user_activity_logging,
+      retaining query history longer than a week, etc. For each, explain why its needed
 
 #### name ideas
 * redshift buddy
