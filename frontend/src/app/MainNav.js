@@ -5,12 +5,13 @@ import StorageIcon from '@mui/icons-material/Storage'
 import TerminalIcon from '@mui/icons-material/Terminal'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-export function FeatureNavLeft(props) {
+export function FeatureNavLeft({onMainNavOptionSelected}) {
+
     return (
         <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
             <nav aria-label="main mailbox folders">
                 <List>
-                    <ListItem disablePadding>
+                    <ListItem disablePadding onClick={() => onMainNavOptionSelected({"mainNavOptionSelected": "sql_editor"})}>
                         <ListItemButton>
                             <ListItemIcon>
                                 <TerminalIcon />
@@ -19,7 +20,7 @@ export function FeatureNavLeft(props) {
                         </ListItemButton>
                     </ListItem>
 
-                    <ListItem disablePadding>
+                    <ListItem disablePadding onClick={() => onMainNavOptionSelected({"mainNavOptionSelected": "database"})}>
                         <ListItemButton>
                             <ListItemIcon disablePadding>
                                 <StorageIcon />
@@ -28,7 +29,7 @@ export function FeatureNavLeft(props) {
                         </ListItemButton>
                     </ListItem>
 
-                    <ListItem disablePadding>
+                    <ListItem disablePadding onClick={() => onMainNavOptionSelected({"mainNavOptionSelected": "users"})}>
                         <ListItemButton>
                             <ListItemIcon>
                                 <AccountCircleIcon />
@@ -37,7 +38,7 @@ export function FeatureNavLeft(props) {
                         </ListItemButton>
                     </ListItem>
 
-                    <ListItem disablePadding>
+                    <ListItem disablePadding onClick={() => onMainNavOptionSelected({"mainNavOptionSelected": "queries"})}>
                         <ListItemButton>
                             <ListItemIcon>
                                 <HistoryIcon />
@@ -50,7 +51,7 @@ export function FeatureNavLeft(props) {
 
             <Divider />
 
-            <nav aria-label="secondary mailbox folders">
+            <nav aria-label="other options">
                 <List>
                     <ListItem disablePadding>
                         <ListItemButton>

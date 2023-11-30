@@ -1,8 +1,8 @@
-import {TabContainer} from "./TabComponent";
-import React, {useState} from "react";
-import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchTableDetailsThunk} from "../features/fetchTableDetailsSlice";
+import {TabContainer} from "./TabComponent"
+import React, {useState} from "react"
+import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material"
+import {useDispatch, useSelector} from "react-redux"
+import {fetchTableDetailsThunk} from "../features/fetchTableDetailsSlice"
 
 export default function TableDetailsTab({table}) {
     const [currentTable, setCurrentTable] = useState({

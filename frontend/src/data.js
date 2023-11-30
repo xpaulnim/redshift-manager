@@ -2,20 +2,32 @@ export const users = [
     {
         "id": 1,
         "name": "admin",
+        "email": "admin@email.com",
         "created_on": "2023-08-01 12:30:05",
-        "group": "admin"
+        "groups": ["admin"],
+        "roles": ["reader"],
+        "last_login": "2023-02-06 09:00:00 UTC",
+        "password_changed": "2021-02-06 09:00:00 UTC",
     },
     {
         "id": 2,
-        "name": "jnimusiima",
+        "name": "pnim",
+        "email": "pnim@email.com",
         "created_on": "2023-08-01 12:30:05",
-        "group": "engineering"
+        "groups": ["engineering"],
+        "roles": ["reader", "creator"],
+        "last_login": "2023-02-06 09:00:00 UTC",
+        "password_changed": "2022-02-06 09:00:00 UTC",
     },
     {
         "id": 3,
         "name": "mobjazz",
+        "email": "mobjazz@email.com",
         "created_on": "2023-08-01 12:30:05",
-        "group": "marketing"
+        "groups": ["marketing"],
+        "roles": ["reader", "creator"],
+        "last_login": "2023-02-06 09:00:00 UTC",
+        "password_changed": "2023-02-06 09:00:00 UTC",
     }
 ]
 
@@ -28,7 +40,7 @@ export const groups = [
     {
         "id": 2,
         "name": "marketing",
-        "users": ["mobjazz"]
+        "users": ["mobjazz"],
     },
     {
         "id": 3,
@@ -69,45 +81,6 @@ export const user_queries = [
             {
                 "id": 6,
                 "query": "select * from ad_events join users on userid"
-            }
-        ]
-    }
-]
-
-export const databases = [
-    {
-        "id": "5",
-        "name": "dev",
-        "owner": "admin",
-        "schemas": [
-            {
-                "id": "4",
-                "name": "public",
-                "owner": "admin",
-                "comment": "default schema",
-                "tables": [
-                    {
-                        "id": "1",
-                        "name": "users",
-                        "owner": "admin",
-                        "size": "50",
-                        "created_at": "2023-08-01 12:30:05",
-                    },
-                    {
-                        "id": "2",
-                        "name": "transaction",
-                        "owner": "admin",
-                        "size": "50",
-                        "created_at": "2023-08-01 12:30:05",
-                    },
-                    {
-                        "id": "3",
-                        "name": "ad_events",
-                        "owner": "admin",
-                        "size": "500",
-                        "created_at": "2023-08-01 12:30:05",
-                    }
-                ]
             }
         ]
     }
