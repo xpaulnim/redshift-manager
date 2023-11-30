@@ -1,3 +1,12 @@
+### redshift specific notes
+#### user creation timestamp
+> Audit logging is not enabled by default in Amazon Redshift.
+> For the user activity log, you must enable the enable_user_activity_logging database parameter. If you enable only the audit logging feature, but not the associated parameter, the database audit logs will log information for only the connection log and user log, but not for the user activity log. The enable_user_activity_logging parameter is disabled (false) by default, but you can set it to true to enable the user activity log. Refer below link for more information.
+> GOTO: Default Parameter Values
+> If I’ve made a bad assumption please comment and I’ll refocus my answer.
+
+quote linked from [this stack overflow message](https://stackoverflow.com/questions/44021531/user-creation-timestamp-in-amazon-redshift)
+
 ### object comments
 #### add a comment to a column
 ```sql

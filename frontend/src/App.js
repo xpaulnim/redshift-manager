@@ -11,8 +11,8 @@ export function App() {
 
     return (
         <Grid container spacing={2}>
-            <Grid item xs={2}>
-                <nav aria-label="main mailbox folders">
+            <Grid item xs={2}  sx={{ bgcolor: 'gray' }}>
+                <nav aria-label="connected databases">
                     <List>
                         <ListItem disablePadding onClick={() => setDbNavOptionSelected({"dbNavOptionSelected": "production_redshift"})}>
                             <ListItemButton>
