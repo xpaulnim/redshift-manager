@@ -11,7 +11,7 @@
 - [ ] generate plans for already queries
 - [ ] create and manage column masks visually eg search for a column and choose what mask to use - policy can be created for you
 - [ ] add comments to objects
-- [ ] search object comments
+- [ ] search object comments & encourage comments
 - [ ] table, schema, database growth over time
 - [ ] upload common file formats into redshift table
 - [ ] for redshift, WYSIWYG WLM management
