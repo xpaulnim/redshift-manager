@@ -1,6 +1,6 @@
-import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material"
+import {Box, Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material"
 import {TabContainer} from "./TabComponent"
-import React, {useEffect, useState} from "react"
+import React, {useState} from "react"
 import {useDispatch, useSelector} from "react-redux"
 import {fetchTablesInSchemaThunk} from "../features/fetchTablesInSchemaSlice"
 
@@ -68,7 +68,60 @@ export default function SchemaDetailsTab({schema}) {
     )
 
     const permissionsPanel = (
-        <p>Permissions table ie user, action</p>
+        <Box>
+            <h3>Access privileges</h3>
+
+
+            <h3>Default privileges</h3>
+            <TableContainer component={Paper}>
+                <Table size="small">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Grantor</TableCell>
+                            <TableCell>Grantee</TableCell>
+                            <TableCell>Object Type</TableCell>
+                            <TableCell>select</TableCell>
+                            <TableCell>insert</TableCell>
+                            <TableCell>update</TableCell>
+                            <TableCell>delete</TableCell>
+                            <TableCell>references</TableCell>
+                            <TableCell>trigger</TableCell>
+                            <TableCell>drop</TableCell>
+                        </TableRow>
+                    </TableHead>
+                        <TableRow
+                            key="">
+                            <TableCell align="left">grantor</TableCell>
+                            <TableCell align="left">grantee</TableCell>
+                            <TableCell align="left">object type</TableCell>
+                            <TableCell align="left">
+                                <Checkbox disabled checked/>
+                            </TableCell>
+                            <TableCell align="left">
+                                <Checkbox disabled checked/>
+                            </TableCell>
+                            <TableCell align="left">
+                                <Checkbox disabled/>
+                            </TableCell>
+                            <TableCell align="left">
+                                <Checkbox disabled />
+                            </TableCell>
+                            <TableCell align="left">
+                                <Checkbox disabled checked/>
+                            </TableCell>
+                            <TableCell align="left">
+                                <Checkbox disabled checked/>
+                            </TableCell>
+                            <TableCell align="left">
+                                <Checkbox disabled/>
+                            </TableCell>
+                        </TableRow>
+                    <TableBody>
+
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Box>
     )
 
     return (

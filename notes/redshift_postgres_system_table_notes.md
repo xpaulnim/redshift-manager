@@ -54,5 +54,38 @@ order by schema_name
 ;
 ```
 
+#### understanding acls
+Links: [System catalog tables](https://docs.aws.amazon.com/redshift/latest/dg/c_intro_catalog_views.html)
+Each of the letter in `arwdRxtD` represent a specific type of grant:
+```
+a: insert
+r: select
+w: update
+d: delete
+R: rule
+x: references
+t: trigger
+D: drop
+```
+These are table levels..  you can see them in `relacl`  column in table `pg_class`, `PG_DATABASE_INFO`
+Similarly for schema, there are three:
+```
+C: create
+T: temporary
+U: usage
+```
+These are stored in nspacl column in table pg_namespace
+Also there is a standard pattern of these grants: `<grantee>=<grants>/granter`
+e.g.  `group domain_core_read_write=arwdxD/owner__domain_core`
+... here group `domain_core_read_write`  is grantee (to whom permissions are granted.
+`owner__domain_core`  is granter (who granted the permissions) and `arwdxD`  is the list of grants.
+I hope this is useful. Sorry I could not find a good document which cover these.
+These are also available in `PG_DEFAULT_ACL` table for relation (table or view), 
+function or stored procedures.. this tables contains all the default privileges 
+(which are like default grants)
+
+`pg_default_acl` does not include default privileges granted to roles
+
+
 #### questions
 * what does regclass mean?

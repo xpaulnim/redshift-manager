@@ -15,6 +15,8 @@
 - [ ] table, schema, database growth over time
 - [ ] upload common file formats into redshift table
 - [ ] for redshift, WYSIWYG WLM management
+- [ ] materialized view hierarchy (stv_mv_deps)
+- [ ] actually apply default privileges to all objects in schema - show ui that allows user selection, but has option for all  
 
 #### divergent features - 
 - [ ] upload common data formats for visualisation - sold as a way to stop users uploading company data to random websites 
@@ -25,6 +27,7 @@
 - [ ] distinguish between tables and view
 - [ ] when a new redshift database connection, ask if user wants to enable certain useful defaults like user_activity_logging,
       retaining query history longer than a week, etc. For each, explain why its needed
+- [ ] dots under potentially unknown terms that define what the term does
 
 #### name ideas
 * redshift buddy

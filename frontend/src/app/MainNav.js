@@ -3,13 +3,13 @@ import {Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText
 import HistoryIcon from '@mui/icons-material/History'
 import StorageIcon from '@mui/icons-material/Storage'
 import TerminalIcon from '@mui/icons-material/Terminal'
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 
 export function FeatureNavLeft({onMainNavOptionSelected}) {
 
     return (
         <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-            <nav aria-label="main mailbox folders">
+            <nav aria-label="main nav">
                 <List>
                     <ListItem disablePadding onClick={() => onMainNavOptionSelected({"mainNavOptionSelected": "sql_editor"})}>
                         <ListItemButton>
