@@ -4,6 +4,7 @@ import HistoryIcon from '@mui/icons-material/History'
 import StorageIcon from '@mui/icons-material/Storage'
 import TerminalIcon from '@mui/icons-material/Terminal'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import VisibilityIcon from '@mui/icons-material/Visibility'
 
 export function FeatureNavLeft({onMainNavOptionSelected}) {
 
@@ -35,6 +36,15 @@ export function FeatureNavLeft({onMainNavOptionSelected}) {
                                 <AccountCircleIcon />
                             </ListItemIcon>
                             <ListItemText primary="Users" />
+                        </ListItemButton>
+                    </ListItem>
+
+                    <ListItem disablePadding onClick={() => onMainNavOptionSelected({"mainNavOptionSelected": "masking"})}>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <VisibilityIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Masking" />
                         </ListItemButton>
                     </ListItem>
 

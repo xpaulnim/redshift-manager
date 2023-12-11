@@ -89,3 +89,11 @@ function or stored procedures.. this tables contains all the default privileges
 
 #### questions
 * what does regclass mean?
+* given an object, can I determine how the user gets access to the table, ie direct grant, role, group
+
+
+#### glossary
+| Term         | Description      |
+|--------------|------------------|
+| pg_class     | database tables  |
+| pg_namespace | database schemas |

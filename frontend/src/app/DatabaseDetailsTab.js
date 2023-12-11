@@ -1,7 +1,46 @@
 import {TabContainer} from "./TabComponent";
 import React from "react";
+import {Box, Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 
 export default function DatabaseDetailsTab(props) {
+    const dbPermissions = (
+        <Box>
+            <h3>Access privileges</h3>
+            <TableContainer component={Paper}>
+                <Table size="small">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Grantor</TableCell>
+                            <TableCell>Grantee</TableCell>
+                            <TableCell>connection limit</TableCell>
+                            <TableCell>create</TableCell>
+                            <TableCell>temporary</TableCell>
+                            <TableCell>usage</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableRow
+                        key="">
+                        <TableCell align="left">grantor</TableCell>
+                        <TableCell align="left">grantee</TableCell>
+                        <TableCell align="left">unlimited</TableCell>
+                        <TableCell align="left">
+                            <Checkbox disabled checked/>
+                        </TableCell>
+                        <TableCell align="left">
+                            <Checkbox disabled checked/>
+                        </TableCell>
+                        <TableCell align="left">
+                            <Checkbox disabled/>
+                        </TableCell>
+                    </TableRow>
+                    <TableBody>
+
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Box>
+    )
+
     return (
         <TabContainer tabs={[
             {
@@ -16,7 +55,7 @@ export default function DatabaseDetailsTab(props) {
             },
             {
                 "header": "Permissions",
-                "content": <p>Who can use and access this database</p>
+                "content": dbPermissions
             }
         ]}/>
     )

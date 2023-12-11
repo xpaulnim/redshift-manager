@@ -1,4 +1,5 @@
 #### feature set
+- [ ] filter users by group & role
 - [ ] database object hierarchy (db, schema, table/view/function)
 - [ ] display user privilege manager
 - [ ] edit user privileges eg I can see what the user can do and visually edit it (and undo)
@@ -17,6 +18,8 @@
 - [ ] for redshift, WYSIWYG WLM management
 - [ ] materialized view hierarchy (stv_mv_deps)
 - [ ] actually apply default privileges to all objects in schema - show ui that allows user selection, but has option for all  
+- [ ] filter by destructive ddls eg drop & alter
+- [ ] how does the user inherit specific permissions?
 
 #### divergent features - 
 - [ ] upload common data formats for visualisation - sold as a way to stop users uploading company data to random websites 

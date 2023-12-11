@@ -1,6 +1,6 @@
 import React, {useEffect} from "react"
 
-import {Box} from "@mui/material"
+import {Box, Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material"
 import DatabaseDetailsTab from "./DatabaseDetailsTab"
 import TableDetailsTab from "./TableDetailsTab"
 import SchemaDetailsTab from "./SchemaDetailsTab"
