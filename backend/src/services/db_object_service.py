@@ -167,6 +167,74 @@ def get_database_object_hierarchy(redshift_client: Redshift) -> dict:
     return hierarchy
 
 
+def get_user_groups(redshift_client: Redshift, username: str):
+    query = f"""
+    select u.usename as username,
+           g.groname as group_name
+    from pg_user u
+    left join pg_group g on u.usesysid = any (g.grolist)
+    where u.usename = '{username}'
+    """
+
+    user_groups = []
+    for batch in redshift_client.query(query=query):
+        for username, group_name in batch:
+            user_groups.append({
+                "username": username,
+                "group_name": group_name,
+            })
+
+    return user_groups
+
+
+def get_user_roles(redshift_client: Redshift, username: str):
+    query = f"""
+    select user_name as username,
+           role_name,
+           admin_option 
+    from svv_user_grants 
+    where user_name = '{username}';
+    """
+
+    user_roles = []
+    for batch in redshift_client.query(query=query):
+        for username, role_name, admin_option in batch:
+            user_roles.append({
+                "username": username,
+                "role_name": role_name,
+                "admin_option": admin_option,
+            })
+
+    return user_roles
+
+
+def get_users(redshift_client: Redshift):
+    query = f"""
+    select usename as username,
+           usesuper,
+           usecreatedb,
+           valuntil,
+           useconfig
+    from pg_user
+    order by username
+    """
+
+    user_list = []
+    for batch in redshift_client.query(query=query):
+        for username, usesuper, usecreatedb, valuntil, useconfig in batch:
+            user_list.append({
+                "username": username,
+                "usesuper": usesuper,
+                "usecreatedb": usecreatedb,
+                "valuntil": valuntil,
+                "groups": get_user_groups(redshift_client, username),
+                "roles": get_user_roles(redshift_client, username),
+                "useconfig": useconfig,
+            })
+
+    return user_list
+
+
 if __name__ == '__main__':
     client = Redshift(
         host=os.environ['REDSHIFT_HOST'],

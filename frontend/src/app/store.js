@@ -4,6 +4,7 @@ import fetchDbOutlineReducer from '../features/fetchDbOutlineSlice'
 import fetchDbOwnerReducer from '../features/fetchDatabaseOwnerSlice'
 import fetchTablesInSchemaReducer from "../features/fetchTablesInSchemaSlice";
 import fetchTableDetailsReducer from "../features/fetchTableDetailsSlice";
+import fetchTableUserList from "../features/fetchUserListSlice";
 
 export default configureStore ({
     reducer: {
@@ -11,5 +12,6 @@ export default configureStore ({
         dbOwner: fetchDbOwnerReducer,
         tablesInSchema: fetchTablesInSchemaReducer,
         tableDetails: fetchTableDetailsReducer,
+        userList: fetchTableUserList,
     }
 })

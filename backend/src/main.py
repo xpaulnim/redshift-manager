@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from db_util import Redshift
 from services.db_object_service import get_database_object_hierarchy, get_database_owner, get_tables_in_schema, get_db_schema_details, \
-    get_table_columns, get_table_preview
+    get_table_columns, get_table_preview, get_users
 
 app = FastAPI()
 redshift_client = Redshift(
@@ -91,4 +91,13 @@ def table_details(table_name: str):
             "table_columns": table_columns,
             "table_preview": table_preview,
         }
+    }
+
+
+@app.get("/user_list")
+def list_users():
+    user_list = get_users(redshift_client)
+
+    return {
+        "data": user_list
     }

@@ -1,19 +1,16 @@
 import {Box} from "@mui/material";
 import {TabContainer} from "./TabComponent";
 import {UserManagerUserDetails} from "./UserManagerUserDetails";
+import GroupManager from "./GroupManager";
 
 
 export function UserManager(props) {
-    const users = (
-        <UserManagerUserDetails/>
-    )
-
     return (
         <Box>
             <TabContainer tabs={[
                 {
                     "header": "Groups",
-                    "content": <p>I manage groups</p>
+                    "content": <GroupManager />
                 },
                 {
                     "header": "Roles",
@@ -21,7 +18,7 @@ export function UserManager(props) {
                 },
                 {
                     "header": "Users",
-                    "content": users
+                    "content":  <UserManagerUserDetails/>
                 }
                 ]}/>
         </Box>

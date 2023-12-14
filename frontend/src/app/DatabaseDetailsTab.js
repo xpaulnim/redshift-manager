@@ -18,8 +18,7 @@ export default function DatabaseDetailsTab(props) {
                             <TableCell>usage</TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableRow
-                        key="">
+                    <TableRow key="">
                         <TableCell align="left">grantor</TableCell>
                         <TableCell align="left">grantee</TableCell>
                         <TableCell align="left">unlimited</TableCell>
