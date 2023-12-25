@@ -1,5 +1,5 @@
 import os
-from typing import List, Tuple
+from typing import List, Tuple, Union
 
 from db_util import Redshift, create_redshift_client
 
@@ -235,6 +235,112 @@ def get_users(redshift_client: Redshift):
     return user_list
 
 
+def extract_acl_permissions(permission_string: str, object_type: str):
+    assert object_type in {"tables", "sequences", "functions", "procedures", "types", "schemas"}
+
+    if object_type == 'tables':
+        return {
+            "insert": "a" in permission_string,
+            "select": "r" in permission_string,
+            "update": "w" in permission_string,
+            "delete": "d" in permission_string,
+            "rule": "R" in permission_string,
+            "references": "x" in permission_string,
+            "trigger": "t" in permission_string,
+            "drop": "D" in permission_string,
+        }
+    elif object_type in {"functions", "procedures"}:
+        return {
+            "execute": "X" in permission_string
+        }
+    elif object_type in {"schemas", "database"}:
+        return {
+            "create": "C" in permission_string,
+            "temporary": "T" in permission_string,
+            "usage": "U" in permission_string,
+        }
+
+    raise Exception(f"{object_type} not recognised")
+
+
+def parse_acl(acl: Union[str, List[str]], object_type: str):
+    grants = []
+
+    if not acl:
+        return grants
+
+    if isinstance(acl, str):
+        acl = acl.replace("{", "").replace("}", "").split(",")
+
+    for aclstr in acl:
+        grantor = aclstr.split('/')[1]
+        grantee = aclstr.split('/')[0].split("=")[0]
+        permissions = extract_acl_permissions(aclstr.split('/')[0].split("=")[1], object_type)
+        grantee_type = "user"
+        if len(grantee.split(" ")) == 2:
+            grantee_type = grantee.split(" ")[0]
+            grantee = grantee.split(" ")[1]
+
+        grants.append({
+            "grantor": grantor,
+            "grantee_type": grantee_type,
+            "grantee": grantee,
+            **permissions,
+        })
+
+    return grants
+
+
+def get_default_privileges(database_name: str, schema_name: str):
+    redshift_client = create_redshift_client(database_name)
+    query = f"""
+    select nspname as schema_name, 
+           case 
+            when defaclobjtype = 'r' then 'tables' 
+            when defaclobjtype = 'f' then 'functions' 
+            when defaclobjtype = 'p' then 'procedures' 
+           end as object_type,
+           defaclacl as default_acl
+    from pg_namespace
+     left join pg_default_acl on pg_namespace.oid = pg_default_acl.defaclnamespace
+    where nspname = '{schema_name}';
+    """
+
+    default_privileges = []
+    for batch in redshift_client.query(query=query):
+        for schema_name, object_type, default_acl in batch:
+            default_privileges.append({
+                "schema_name": schema_name,
+                "object_type": object_type,
+                "schema_acl": parse_acl(default_acl, object_type=object_type)
+            })
+
+    return default_privileges
+
+
+def get_schema_access_privileges(database_name: str, schema_name: str):
+    redshift_client = create_redshift_client(database_name)
+    query = f"""
+    select pg_user.usename as schema_owner,
+           pg_namespace.nspname as schema_name,
+           pg_namespace.nspacl as schema_acl
+    from pg_namespace
+    left join pg_user on pg_namespace.nspowner = pg_user.usesysid
+    where pg_namespace.nspname = '{schema_name}'
+    """
+
+    schema_privileges = []
+    for batch in redshift_client.query(query=query):
+        for schema_owner, schema_name, schema_acl in batch:
+            schema_privileges.append({
+                "schema_name": schema_name,
+                "schema_owner": schema_owner,
+                "schema_acl": parse_acl(schema_acl, object_type='schemas'),
+            })
+
+    return schema_privileges[0] if schema_privileges else []
+
+
 if __name__ == '__main__':
     client = Redshift(
         host=os.environ['REDSHIFT_HOST'],
@@ -245,12 +351,6 @@ if __name__ == '__main__':
         as_dict=False
     )
 
-    cols, values = get_table_preview(db_name='dev', schema_name='jnimusiima_sandbox', table_name='credit_cards')
-
-    print(cols)
-    for obj in values:
-        print(obj)
-
-    cols = get_table_columns(db_name='dev', schema_name='jnimusiima_sandbox', table_name='credit_cards')
-    for i in cols:
+    result = get_default_privileges(database_name='dev', schema_name='jnimusiima_sandbox')
+    for i in result:
         print(i)

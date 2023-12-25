@@ -7,6 +7,19 @@
 
 quote linked from [this stack overflow message](https://stackoverflow.com/questions/44021531/user-creation-timestamp-in-amazon-redshift)
 
+### user & access checks 
+#### simulate a user
+```sql
+set session authorization  ${username};
+select top 10 * from "dev"."jnimusiima_sandbox"."credit_cards";
+set session authorization  default;
+```
+#### verify user access to an object
+```sql
+-- select, insert, update, delete, references
+select has_table_privilege('user', 'jnimusiima.credit_cards', 'select'::text)
+```
+
 ### object comments
 #### add a comment to a column
 ```sql

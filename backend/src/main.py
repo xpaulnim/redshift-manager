@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from db_util import Redshift
 from services.db_object_service import get_database_object_hierarchy, get_database_owner, get_tables_in_schema, get_db_schema_details, \
-    get_table_columns, get_table_preview, get_users
+    get_table_columns, get_table_preview, get_users, get_schema_access_privileges, get_default_privileges
 
 app = FastAPI()
 redshift_client = Redshift(
@@ -72,6 +72,31 @@ def tables_in_schema(schema_name: str):
 
     return {
         "data": tables_details
+    }
+
+
+@app.get("/schema_access_privileges/{schema_name}")
+def schema_access_privileges(schema_name: str):
+    print(schema_name)
+
+    _db_name = schema_name.split(".")[0]
+    _schema_name = schema_name.split(".")[1]
+    schema_privileges = get_schema_access_privileges(_db_name, _schema_name)
+
+    return {
+        "data": schema_privileges
+    }
+
+
+@app.get("/default_schema_access_privileges/{schema_name}")
+def get_default_schema_access_privileges(schema_name: str):
+    _db_name = schema_name.split(".")[0]
+    _schema_name = schema_name.split(".")[1]
+
+    default_privileges = get_default_privileges(_db_name, _schema_name)
+
+    return {
+        "data": default_privileges
     }
 
 

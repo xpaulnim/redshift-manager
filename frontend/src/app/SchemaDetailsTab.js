@@ -3,6 +3,16 @@ import {TabContainer} from "./TabComponent"
 import React, {useState} from "react"
 import {useDispatch, useSelector} from "react-redux"
 import {fetchTablesInSchemaThunk} from "../features/fetchTablesInSchemaSlice"
+import {fetchSchemaAccessPrivilegesThunk} from "../features/fetchSchemaAccessPrivilegesSlice";
+import {fetchDefaultSchemaAccessPrivilegesThunk} from "../features/fetchDefaultSchemaAccessPrivilegesSlice";
+
+function checkboxFromBool(ticked) {
+    if (ticked) {
+        return (<Checkbox disabled checked/>)
+    }
+
+    return (<Checkbox disabled/>)
+}
 
 export default function SchemaDetailsTab({schema}) {
     const [currentSchema, setCurrentSchema] = useState({
@@ -11,12 +21,16 @@ export default function SchemaDetailsTab({schema}) {
 
     const dispatch = useDispatch()
     const tablesInSchema = useSelector(state => state.tablesInSchema)
+    const schemaAccessPrivileges = useSelector(state => state.schemaAccessPrivileges)
+    const defaultSchemaAccessPrivileges = useSelector(state => state.defaultSchemaAccessPrivileges)
 
     if (schema !== currentSchema.currentSchema && schema.split(".").length === 2) {
         console.log("schema is " + schema)
 
         setCurrentSchema({"currentSchema": schema})
         dispatch(fetchTablesInSchemaThunk(schema))
+        dispatch(fetchSchemaAccessPrivilegesThunk(schema))
+        dispatch(fetchDefaultSchemaAccessPrivilegesThunk(schema))
     }
 
     const tablesPanel = (
@@ -70,54 +84,100 @@ export default function SchemaDetailsTab({schema}) {
     const permissionsPanel = (
         <Box>
             <h3>Access privileges</h3>
-
-
-            <h3>Default privileges</h3>
             <TableContainer component={Paper}>
                 <Table size="small">
                     <TableHead>
                         <TableRow>
                             <TableCell>Grantor</TableCell>
                             <TableCell>Grantee</TableCell>
-                            <TableCell>Object Type</TableCell>
-                            <TableCell>select</TableCell>
-                            <TableCell>insert</TableCell>
-                            <TableCell>update</TableCell>
-                            <TableCell>delete</TableCell>
-                            <TableCell>references</TableCell>
-                            <TableCell>trigger</TableCell>
-                            <TableCell>drop</TableCell>
+                            <TableCell>Grantee type</TableCell>
+                            <TableCell>USAGE</TableCell>
+                            <TableCell>CREATE</TableCell>
+                            <TableCell>TEMPORARY</TableCell>
                         </TableRow>
                     </TableHead>
-                        <TableRow
-                            key="">
-                            <TableCell align="left">grantor</TableCell>
-                            <TableCell align="left">grantee</TableCell>
-                            <TableCell align="left">object type</TableCell>
-                            <TableCell align="left">
-                                <Checkbox disabled checked/>
-                            </TableCell>
-                            <TableCell align="left">
-                                <Checkbox disabled checked/>
-                            </TableCell>
-                            <TableCell align="left">
-                                <Checkbox disabled/>
-                            </TableCell>
-                            <TableCell align="left">
-                                <Checkbox disabled />
-                            </TableCell>
-                            <TableCell align="left">
-                                <Checkbox disabled checked/>
-                            </TableCell>
-                            <TableCell align="left">
-                                <Checkbox disabled checked/>
-                            </TableCell>
-                            <TableCell align="left">
-                                <Checkbox disabled/>
-                            </TableCell>
-                        </TableRow>
-                    <TableBody>
 
+                    <TableBody>
+                        {
+                            schemaAccessPrivileges.data["schema_acl"].map((row) => (
+                                <TableRow key="">
+                                    <TableCell align="left">{row["grantor"]}</TableCell>
+                                    <TableCell align="left">{row["grantee"]}</TableCell>
+                                    <TableCell align="left">{row["grantee_type"]}</TableCell>
+                                    <TableCell align="left">{checkboxFromBool(row["usage"])}</TableCell>
+                                    <TableCell align="left">{checkboxFromBool(row["create"])}</TableCell>
+                                    <TableCell align="left">{checkboxFromBool(row["temporary"])}</TableCell>
+                                </TableRow>
+                            ))
+                        }
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
+            <h3>Default privileges</h3>
+            <h4>Tables</h4>
+            <TableContainer component={Paper}>
+                <Table size="small">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="center">Grantor</TableCell>
+                            <TableCell align="center">Grantee</TableCell>
+                            <TableCell align="center">SELECT</TableCell>
+                            <TableCell align="center">INSERT</TableCell>
+                            <TableCell align="center">UPDATE</TableCell>
+                            <TableCell align="center">DELETE</TableCell>
+                            <TableCell align="center">REFERENCES</TableCell>
+                            <TableCell align="center">TRIGGER</TableCell>
+                            <TableCell align="center">DROP</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {
+                            defaultSchemaAccessPrivileges.data.filter(
+                                (schema) => schema["object_type"] === "tables"
+                            ).map((row) => (
+                                    row["schema_acl"].map((acl) => (
+                                        <TableRow key="">
+                                            <TableCell align="left">{acl["grantor"]}</TableCell>
+                                            <TableCell align="left">{acl["grantee"]}</TableCell>
+                                            <TableCell align="center">{checkboxFromBool(acl["select"])}</TableCell>
+                                            <TableCell align="center">{checkboxFromBool(acl["insert"])}</TableCell>
+                                            <TableCell align="center">{checkboxFromBool(acl["update"])}</TableCell>
+                                            <TableCell align="center">{checkboxFromBool(acl["delete"])}</TableCell>
+                                            <TableCell align="center">{checkboxFromBool(acl["references"])}</TableCell>
+                                            <TableCell align="center">{checkboxFromBool(acl["trigger"])}</TableCell>
+                                            <TableCell align="center">{checkboxFromBool(acl["drop"])}</TableCell>
+                                        </TableRow>
+                                    ))
+                            ))
+                        }
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <h4>Functions</h4>
+            <TableContainer component={Paper}>
+                <Table size="small">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Grantor</TableCell>
+                            <TableCell>Grantee</TableCell>
+                            <TableCell align="center">EXECUTE</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {
+                            defaultSchemaAccessPrivileges.data.filter(
+                                (schema) => schema["object_type"] === "functions"
+                            ).map((row) => (
+                                row["schema_acl"].map((acl) => (
+                                    <TableRow key="">
+                                        <TableCell align="left">{acl["grantor"]}</TableCell>
+                                        <TableCell align="left">{acl["grantee"]}</TableCell>
+                                        <TableCell align="center">{checkboxFromBool(acl["execute"])}</TableCell>
+                                    </TableRow>
+                                ))
+                            ))
+                        }
                     </TableBody>
                 </Table>
             </TableContainer>
@@ -127,12 +187,12 @@ export default function SchemaDetailsTab({schema}) {
     return (
         <TabContainer tabs={[
             {
-                "header": "Tables",
-                "content": tablesPanel
-            },
-            {
                 "header": "Details",
                 "content": detailsPanel
+            },
+            {
+                "header": "Tables",
+                "content": tablesPanel
             },
             {
                 "header": "Permissions",
