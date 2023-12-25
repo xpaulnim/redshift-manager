@@ -79,17 +79,17 @@ export default function TableDetailsTab({table}) {
     return (
         <TabContainer tabs={[
             {
+                "header": "Details",
+                "content": <p>Type eg external, if external storage location & properties, Created At, table Id and
+                    other stuff from table info </p>
+            },
+            {
                 "header": "Columns",
                 "content": tableColumns
             },
             {
                 "header": "Sample data",
                 "content": sampleData
-            },
-            {
-                "header": "details",
-                "content": <p>Type eg external, if external storage location & properties, Created At, table Id and
-                    other stuff from table info </p>
             },
             {
                 "header": "Permissions",

@@ -27,7 +27,7 @@ export function DbObjectExplorer(props) {
     return (
         <Grid container spacing={2}>
             <Stack spacing={2}>
-                <TextField label="Filter" id="outlined-basic" variant="outlined"/>
+                <TextField label="Filter" id="outlined-basic" variant="outlined" size="small"/>
 
                 <Grid item xs={4}>
                     <DbObjectTreeView

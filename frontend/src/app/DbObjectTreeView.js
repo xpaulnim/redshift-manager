@@ -1,7 +1,7 @@
 import React from 'react'
-import {TreeItem, TreeView} from "@mui/x-tree-view";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import {TreeItem, TreeView} from "@mui/x-tree-view"
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+import ChevronRightIcon from "@mui/icons-material/ChevronRight"
 
 function DatabaseTreeItemComponent({database_name, schema_obj, onDbObjectSelected}) {
     return (

@@ -22,6 +22,7 @@ select has_table_privilege('user', 'jnimusiima.credit_cards', 'select'::text)
 
 ### object comments
 #### add a comment to a column
+- can't figure out how to comment on databases consistently
 ```sql
 -- get a table comment
 select obj_description('jnimusiima_sandbox.credit_cards'::regclass);

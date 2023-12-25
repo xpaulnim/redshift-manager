@@ -103,7 +103,7 @@ def get_tables_in_schema(db_name: str, schema_name: str):
     return table_details
 
 
-def get_database_owner(redshift_client: Redshift, db_name: str):
+def get_db_owner(redshift_client: Redshift, db_name: str):
     query = f"""
     select u.usename as db_owner,
            db.database_name as db_name
@@ -128,7 +128,9 @@ def get_table_owner(redshift_client: Redshift, schema_name: str, table_name: str
 
 def get_db_schema_details(redshift_client: Redshift, db_name: str):
     query = f"""
-    select schema_name, schema_owner
+    select schema_name,
+           schema_owner,
+           schema_type
     from svv_redshift_schemas
     left join pg_user u on schema_owner = u.usesysid
     where database_name = '{db_name}'
@@ -144,7 +146,7 @@ def get_db_schema_details(redshift_client: Redshift, db_name: str):
     return schema_details
 
 
-def get_database_object_hierarchy(redshift_client: Redshift) -> dict:
+def get_db_object_hierarchy(redshift_client: Redshift) -> dict:
     query = """
     select database_name,
            schema_name,
@@ -236,8 +238,6 @@ def get_users(redshift_client: Redshift):
 
 
 def extract_acl_permissions(permission_string: str, object_type: str):
-    assert object_type in {"tables", "sequences", "functions", "procedures", "types", "schemas"}
-
     if object_type == 'tables':
         return {
             "insert": "a" in permission_string,
@@ -253,7 +253,7 @@ def extract_acl_permissions(permission_string: str, object_type: str):
         return {
             "execute": "X" in permission_string
         }
-    elif object_type in {"schemas", "database"}:
+    elif object_type in {"schemas", "databases"}:
         return {
             "create": "C" in permission_string,
             "temporary": "T" in permission_string,
@@ -321,11 +321,10 @@ def get_default_privileges(database_name: str, schema_name: str):
 def get_schema_access_privileges(database_name: str, schema_name: str):
     redshift_client = create_redshift_client(database_name)
     query = f"""
-    select pg_user.usename as schema_owner,
+    select pg_get_userbyid(nspowner) as schema_owner,
            pg_namespace.nspname as schema_name,
            pg_namespace.nspacl as schema_acl
     from pg_namespace
-    left join pg_user on pg_namespace.nspowner = pg_user.usesysid
     where pg_namespace.nspname = '{schema_name}'
     """
 
@@ -341,6 +340,39 @@ def get_schema_access_privileges(database_name: str, schema_name: str):
     return schema_privileges[0] if schema_privileges else []
 
 
+def get_db_access_privileges(database_name: str):
+    redshift_client = create_redshift_client(database_name)
+    query = """
+    select datname as db_name,
+           pg_get_userbyid(datdba) as db_owner,
+           b.database_type as database_type,
+           description,
+           datallowconn,
+           datconfig,
+           datacl,
+           database_options
+    from pg_database
+    left join svv_redshift_databases b on pg_database.datname = b.database_name
+    left join pg_description on pg_database.oid = pg_description.objoid;
+    """
+
+    db_privileges = []
+    for batch in redshift_client.query(query=query):
+        for db_name, db_owner, database_type, description, datallowconn, datconfig, datacl, database_options in batch:
+            db_privileges.append({
+                "db_name": db_name,
+                "db_owner": db_owner,
+                "database_type": database_type,
+                "description": description,
+                "datallowconn": datallowconn,
+                "datconfig": datconfig,
+                "datacl": parse_acl(datacl, "databases"),
+                "database_options": database_options
+            })
+
+    return db_privileges
+
+
 if __name__ == '__main__':
     client = Redshift(
         host=os.environ['REDSHIFT_HOST'],
@@ -351,6 +383,6 @@ if __name__ == '__main__':
         as_dict=False
     )
 
-    result = get_default_privileges(database_name='dev', schema_name='jnimusiima_sandbox')
+    result = get_db_access_privileges(database_name='dev')
     for i in result:
         print(i)

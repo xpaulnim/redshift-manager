@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from db_util import Redshift
-from services.db_object_service import get_database_object_hierarchy, get_database_owner, get_tables_in_schema, get_db_schema_details, \
+from services.db_object_service import get_db_object_hierarchy, get_db_owner, get_tables_in_schema, get_db_schema_details, \
     get_table_columns, get_table_preview, get_users, get_schema_access_privileges, get_default_privileges
 
 app = FastAPI()
@@ -38,14 +38,14 @@ def read_root():
 
 @app.get("/db_outline")
 def db_outline():
-    db_hierarchy = get_database_object_hierarchy(redshift_client)
+    db_hierarchy = get_db_object_hierarchy(redshift_client)
 
     return {"data": db_hierarchy}
 
 
 @app.get("/database_owner/{db_name}")
 def database_owner(db_name: str):
-    db_owner, _db_name = get_database_owner(redshift_client, db_name)
+    db_owner, _db_name = get_db_owner(redshift_client, db_name)
 
     return {
         "data": {
