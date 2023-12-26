@@ -103,7 +103,8 @@ def get_tables_in_schema(db_name: str, schema_name: str):
     return table_details
 
 
-def get_db_owner(redshift_client: Redshift, db_name: str):
+def get_db_owner(db_name: str):
+    redshift_client = create_redshift_client("dev")
     query = f"""
     select u.usename as db_owner,
            db.database_name as db_name
@@ -117,6 +118,7 @@ def get_db_owner(redshift_client: Redshift, db_name: str):
 
 
 def get_table_owner(redshift_client: Redshift, schema_name: str, table_name: str):
+    redshift_client = create_redshift_client("dev")
     query = f"""
     select tableowner
     from pg_tables
@@ -126,7 +128,8 @@ def get_table_owner(redshift_client: Redshift, schema_name: str, table_name: str
     return redshift_client.one(query)
 
 
-def get_db_schema_details(redshift_client: Redshift, db_name: str):
+def get_db_schema_details(db_name: str):
+    redshift_client = create_redshift_client("dev")
     query = f"""
     select schema_name,
            schema_owner,
@@ -146,7 +149,8 @@ def get_db_schema_details(redshift_client: Redshift, db_name: str):
     return schema_details
 
 
-def get_db_object_hierarchy(redshift_client: Redshift) -> dict:
+def get_db_object_hierarchy() -> dict:
+    redshift_client = create_redshift_client("dev")
     query = """
     select database_name,
            schema_name,
@@ -169,7 +173,8 @@ def get_db_object_hierarchy(redshift_client: Redshift) -> dict:
     return hierarchy
 
 
-def get_user_groups(redshift_client: Redshift, username: str):
+def get_user_groups(username: str):
+    redshift_client = create_redshift_client("dev")
     query = f"""
     select u.usename as username,
            g.groname as group_name
@@ -189,7 +194,8 @@ def get_user_groups(redshift_client: Redshift, username: str):
     return user_groups
 
 
-def get_user_roles(redshift_client: Redshift, username: str):
+def get_user_roles(username: str):
+    redshift_client = create_redshift_client("dev")
     query = f"""
     select user_name as username,
            role_name,
@@ -210,7 +216,8 @@ def get_user_roles(redshift_client: Redshift, username: str):
     return user_roles
 
 
-def get_users(redshift_client: Redshift):
+def get_users():
+    redshift_client = create_redshift_client("dev")
     query = f"""
     select usename as username,
            usesuper,

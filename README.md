@@ -8,5 +8,10 @@ $ npm install
 
 # run
 cd frontend; npm start
-cd backend; uvicorn main:app --reload
+export REDSHIFT_HOST=
+export REDSHIFT_USERNAME=
+export REDSHIFT_PASSWORD=
+cd backend;
+export PYTHONPATH=$PWD
+uvicorn main:app --reload
 ```

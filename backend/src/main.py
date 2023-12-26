@@ -4,18 +4,19 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from db_util import Redshift
-from services.db_object_service import get_db_object_hierarchy, get_db_owner, get_tables_in_schema, get_db_schema_details, \
-    get_table_columns, get_table_preview, get_users, get_schema_access_privileges, get_default_privileges
+from services.db_object_service import (
+    get_db_object_hierarchy,
+    get_db_owner,
+    get_tables_in_schema,
+    get_db_schema_details,
+    get_table_columns,
+    get_table_preview,
+    get_users,
+    get_schema_access_privileges,
+    get_default_privileges
+)
 
 app = FastAPI()
-redshift_client = Redshift(
-    host=os.environ['REDSHIFT_HOST'],
-    port=5439,
-    database=os.environ.get('REDSHIFT_DATABASE', 'dev'),
-    username=os.environ['REDSHIFT_USERNAME'],
-    password=os.environ['REDSHIFT_PASSWORD'],
-    as_dict=False,
-)
 
 origins = [
     "http://localhost:3000",
@@ -38,14 +39,14 @@ def read_root():
 
 @app.get("/db_outline")
 def db_outline():
-    db_hierarchy = get_db_object_hierarchy(redshift_client)
+    db_hierarchy = get_db_object_hierarchy()
 
     return {"data": db_hierarchy}
 
 
 @app.get("/database_owner/{db_name}")
 def database_owner(db_name: str):
-    db_owner, _db_name = get_db_owner(redshift_client, db_name)
+    db_owner, _db_name = get_db_owner(db_name)
 
     return {
         "data": {
@@ -57,7 +58,7 @@ def database_owner(db_name: str):
 
 @app.get("/database/schemas")
 def db_schema_details(db_name: str):
-    schema_details = get_db_schema_details(redshift_client, db_name)
+    schema_details = get_db_schema_details(db_name)
 
     return {"data": schema_details}
 
@@ -121,7 +122,7 @@ def table_details(table_name: str):
 
 @app.get("/user_list")
 def list_users():
-    user_list = get_users(redshift_client)
+    user_list = get_users()
 
     return {
         "data": user_list
