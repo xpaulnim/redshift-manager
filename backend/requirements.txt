@@ -3,3 +3,4 @@ sqlalchemy
 sqlalchemy-redshift
 redshift-connector
 uvicorn[standard]
+psycopg2-binary

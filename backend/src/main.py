@@ -1,20 +1,7 @@
-import os
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from db_util import Redshift
-from services.db_object_service import (
-    get_db_object_hierarchy,
-    get_db_owner,
-    get_tables_in_schema,
-    get_db_schema_details,
-    get_table_columns,
-    get_table_preview,
-    get_users,
-    get_schema_access_privileges,
-    get_default_privileges
-)
+from services.postgres_service import PostgresManagerService
 
 app = FastAPI()
 
@@ -31,6 +18,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+global_db_service = PostgresManagerService
+
 
 @app.get("/")
 def read_root():
@@ -39,26 +28,24 @@ def read_root():
 
 @app.get("/db_outline")
 def db_outline():
-    db_hierarchy = get_db_object_hierarchy()
+    db_service = global_db_service()
+    db_hierarchy = db_service.get_db_object_hierarchy()
 
     return {"data": db_hierarchy}
 
 
 @app.get("/database_owner/{db_name}")
 def database_owner(db_name: str):
-    db_owner, _db_name = get_db_owner(db_name)
+    db_service = global_db_service(db_name)
+    db_owner, _db_name = db_service.get_db_owner(db_name)
 
-    return {
-        "data": {
-            "db_owner": db_owner,
-            "db_name": _db_name
-        }
-    }
+    return {"data": {"db_owner": db_owner, "db_name": _db_name}}
 
 
 @app.get("/database/schemas")
 def db_schema_details(db_name: str):
-    schema_details = get_db_schema_details(db_name)
+    db_service = global_db_service(db_name)
+    schema_details = db_service.get_db_schema_details()
 
     return {"data": schema_details}
 
@@ -69,11 +56,11 @@ def tables_in_schema(schema_name: str):
 
     _db_name = schema_name.split(".")[0]
     _schema_name = schema_name.split(".")[1]
-    tables_details = get_tables_in_schema(_db_name, _schema_name)
 
-    return {
-        "data": tables_details
-    }
+    db_service = global_db_service(_db_name)
+    tables_details = db_service.get_tables_in_schema(_schema_name)
+
+    return {"data": tables_details}
 
 
 @app.get("/schema_access_privileges/{schema_name}")
@@ -82,23 +69,22 @@ def schema_access_privileges(schema_name: str):
 
     _db_name = schema_name.split(".")[0]
     _schema_name = schema_name.split(".")[1]
-    schema_privileges = get_schema_access_privileges(_db_name, _schema_name)
 
-    return {
-        "data": schema_privileges
-    }
+    db_service = global_db_service(_db_name)
+    schema_privileges = db_service.get_schema_access_privileges(_schema_name)
+
+    return {"data": schema_privileges}
 
 
 @app.get("/default_schema_access_privileges/{schema_name}")
-def get_default_schema_access_privileges(schema_name: str):
+def default_schema_access_privileges(schema_name: str):
     _db_name = schema_name.split(".")[0]
     _schema_name = schema_name.split(".")[1]
 
-    default_privileges = get_default_privileges(_db_name, _schema_name)
+    db_service = global_db_service(_db_name)
+    default_privileges = db_service.get_default_privileges(_schema_name)
 
-    return {
-        "data": default_privileges
-    }
+    return {"data": default_privileges}
 
 
 @app.get("/table_details/{table_name}")
@@ -109,8 +95,9 @@ def table_details(table_name: str):
     _schema_name = table_name.split(".")[1]
     _table_name = table_name.split(".")[2]
 
-    table_columns = get_table_columns(_db_name, _schema_name, _table_name)
-    _, table_preview = get_table_preview(_db_name, _schema_name, _table_name)
+    db_service = global_db_service(_db_name)
+    table_columns = db_service.get_table_columns(_schema_name, _table_name)
+    _, table_preview = db_service.get_table_preview(_db_name, _schema_name, _table_name)
 
     return {
         "data": {
@@ -122,8 +109,7 @@ def table_details(table_name: str):
 
 @app.get("/user_list")
 def list_users():
-    user_list = get_users()
+    db_service = global_db_service()
+    user_list = db_service.get_users()
 
-    return {
-        "data": user_list
-    }
+    return {"data": user_list}

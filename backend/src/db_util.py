@@ -4,20 +4,20 @@ import sqlalchemy
 from sqlalchemy.engine.url import URL
 
 
-class Redshift:
+class DbClient:
     def __init__(
-            self,
-            host: str,
-            port: int,
-            database: str,
-            username: str,
-            password: str,
-            as_dict: bool=True,
-            drivername: str = "redshift+redshift_connector",
-            query=None,
-            pool_reset_on_return="commit",
-            log_sql: bool = True,
-            **kwargs,
+        self,
+        host: str,
+        port: int,
+        database: str,
+        username: str,
+        password: str,
+        drivername: str,
+        as_dict: bool = True,
+        query=None,
+        pool_reset_on_return="commit",
+        log_sql: bool = True,
+        **kwargs,
     ):
 
         if query is None:
@@ -83,12 +83,59 @@ class Redshift:
             return row
 
 
-def create_redshift_client(database: str, as_dict=False):
-    return Redshift(
-        host=os.environ['REDSHIFT_HOST'],
-        port=5439,
-        database=database,
-        username=os.environ['REDSHIFT_USERNAME'],
-        password=os.environ['REDSHIFT_PASSWORD'],
-        as_dict=as_dict,
-    )
+class PostgresClient(DbClient):
+    def __init__(
+        self,
+        host: str,
+        port: int,
+        database: str,
+        username: str,
+        password: str,
+        as_dict: bool = True,
+        query=None,
+        pool_reset_on_return="commit",
+        log_sql: bool = True,
+        **kwargs,
+    ):
+        super().__init__(
+            host=host,
+            port=port,
+            database=database,
+            username=username,
+            password=password,
+            as_dict=as_dict,
+            query=query,
+            pool_reset_on_return=pool_reset_on_return,
+            log_sql=log_sql,
+            drivername="postgresql+psycopg2",
+            **kwargs,
+        )
+
+
+class RedshiftClient(DbClient):
+    def __init__(
+        self,
+        host: str,
+        port: int,
+        database: str,
+        username: str,
+        password: str,
+        as_dict: bool = True,
+        query=None,
+        pool_reset_on_return="commit",
+        log_sql: bool = True,
+        **kwargs,
+    ):
+        super().__init__(
+            host=host,
+            port=port,
+            database=database,
+            username=username,
+            password=password,
+            as_dict=as_dict,
+            query=query,
+            pool_reset_on_return=pool_reset_on_return,
+            log_sql=log_sql,
+            drivername="redshift+redshift_connector",
+            **kwargs,
+        )
