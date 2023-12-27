@@ -132,6 +132,39 @@ class RedshiftManagerService(PostgresManagerService):
 
         return user_roles
 
+    def get_table_columns(self, schema_name: str, table_name: str):
+        query = f"""
+        with table_columns as (
+            select *
+            from pg_get_cols('{schema_name}.{table_name}') cols(
+                view_schema name,
+                view_name name,
+                col_name name,
+                col_type varchar,
+                col_num int
+            )
+        )
+        select view_name,
+            col_name,
+            col_type,
+            col_description('{schema_name}.{table_name}'::regclass, col_num) as col_comment
+        from table_columns;
+        """
+
+        column_details = []
+        for result in self.db_client.query(query):
+            for view_name, col_name, col_type, col_comment in result:
+                column_details.append(
+                    {
+                        "table_name": view_name,
+                        "col_name": col_name,
+                        "col_type": col_type,
+                        "col_comment": col_comment,
+                    }
+                )
+
+        return column_details
+
     def get_db_access_privileges(self):
         query = """
         select datname as db_name,

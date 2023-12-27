@@ -124,32 +124,23 @@ class PostgresManagerService(DatabaseManager):
 
     def get_table_columns(self, schema_name: str, table_name: str):
         query = f"""
-        with table_columns as (
-            select *
-            from pg_get_cols('{schema_name}.{table_name}') cols(
-                view_schema name,
-                view_name name,
-                col_name name,
-                col_type varchar,
-                col_num int
-            )
-        )
-        select view_name,
-            col_name,
-            col_type,
-            col_description('{schema_name}.{table_name}'::regclass, col_num) as col_comment
-        from table_columns;
+        select table_name,
+               column_name,
+               data_type as col_type,
+               'unknown' as col_comment
+        from information_schema.columns
+        where table_schema = '{schema_name}' and table_name = '{table_name}';
         """
 
         column_details = []
         for result in self.db_client.query(query):
-            for view_name, col_name, col_type, col_comment in result:
+            for table_name, column_name, col_type, col_comment in result:
                 column_details.append(
                     {
-                        "table_name": view_name,
-                        "col_name": col_name,
+                        "table_name": table_name,
+                        "col_name": column_name,
                         "col_type": col_type,
-                        "col_comment": col_comment,
+                        "col_comment": "unknown",
                     }
                 )
 
