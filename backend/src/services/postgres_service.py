@@ -12,8 +12,6 @@ class PostgresManagerService(DatabaseManager):
     @staticmethod
     def create_db_client(db_name: str, as_dict=False):
         # TODO: Make this generic and inject it into the class
-        print(os.environ)
-
         return PostgresClient(
             host=os.environ["POSTGRES_HOST"],
             port=int(os.environ.get("POSTGRES_PORT", 5432)),
@@ -27,7 +25,42 @@ class PostgresManagerService(DatabaseManager):
         raise NotImplementedError()
 
     def get_db_object_hierarchy(self):
-        raise NotImplementedError()
+        hierarchy = {}
+
+        for db_name in self.get_database_names():
+            print(db_name)
+            db_client = self.create_db_client(db_name)
+
+            query = """
+            select table_catalog as db_name,
+                   table_schema,
+                   table_name,
+                   table_type
+            from information_schema.tables;
+            """
+            for result in db_client.query(query):
+                for db_name, table_schema, table_name, table_type in result:
+                    if db_name not in hierarchy:
+                        hierarchy[db_name] = {}
+
+                    if table_schema not in hierarchy[db_name]:
+                        hierarchy[db_name][table_schema] = []
+
+                    hierarchy[db_name][table_schema].append(table_name)
+
+        return hierarchy
+
+    def get_database_names(self):
+        query = """
+        select datname from pg_database where datallowconn = true;
+        """
+
+        db_names = []
+        for result in self.db_client.query(query):
+            for (datname,) in result:
+                db_names.append(datname)
+
+        return db_names
 
     def get_db_schema_details(self):
         raise NotImplementedError()
@@ -194,7 +227,8 @@ class PostgresManagerService(DatabaseManager):
 
         return schema_privileges[0] if schema_privileges else []
 
-    def extract_acl_permissions(self, permission_string: str, object_type: str):
+    @staticmethod
+    def extract_acl_permissions(permission_string: str, object_type: str):
         if object_type == "tables":
             return {
                 "insert": "a" in permission_string,

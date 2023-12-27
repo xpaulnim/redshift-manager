@@ -35,9 +35,9 @@ class RedshiftManagerService(PostgresManagerService):
             for db, schema_name, table_name, creation_time, table_size in result:
                 table_owner = None
                 try:
-                    table_owner = self.get_table_owner(
-                        self.db_client, schema_name, table_name
-                    )["tableowner"]
+                    table_owner = self.get_table_owner(schema_name, table_name)[
+                        "tableowner"
+                    ]
                 except Exception as e:
                     print(f"table_owner not found for {table_owner}")
                     print(e)
@@ -50,15 +50,13 @@ class RedshiftManagerService(PostgresManagerService):
                         "table_owner": table_owner,
                         "created_at": creation_time,
                         "size": table_size,
-                        "table_desc": self.get_table_comment(
-                            self.db_client, schema_name, table_name
-                        ),
+                        "table_desc": self.get_table_comment(schema_name, table_name),
                     }
                 )
 
         return table_details
 
-    def get_db_owner(self):
+    def get_db_owner(self, db_name: str):
         query = f"""
         select u.usename as db_owner,
                db.database_name as db_name
