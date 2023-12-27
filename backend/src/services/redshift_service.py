@@ -32,7 +32,7 @@ class RedshiftManagerService(PostgresManagerService):
 
         table_details = []
         for result in self.db_client.query(query):
-            for db, schema_name, table_name, creation_time, table_size in result:
+            for db_name, schema_name, table_name, creation_time, table_size in result:
                 table_owner = None
                 try:
                     table_owner = self.get_table_owner(schema_name, table_name)[
@@ -44,7 +44,7 @@ class RedshiftManagerService(PostgresManagerService):
 
                 table_details.append(
                     {
-                        "db": db,
+                        "db": db_name,
                         "schema_name": schema_name,
                         "table_name": table_name,
                         "table_owner": table_owner,
@@ -58,10 +58,9 @@ class RedshiftManagerService(PostgresManagerService):
 
     def get_db_owner(self, db_name: str):
         query = f"""
-        select u.usename as db_owner,
+        select pg_get_userbyid(database_owner) as db_owner,
                db.database_name as db_name
         from svv_redshift_databases db
-        left join pg_user u on db.database_owner = u.usesysid
         where database_name = '{self.db_name}'
         ;
         """

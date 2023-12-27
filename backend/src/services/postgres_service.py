@@ -22,13 +22,49 @@ class PostgresManagerService(DatabaseManager):
         )
 
     def get_db_access_privileges(self):
-        raise NotImplementedError()
+        query = """
+        select datname as db_name,
+               pg_get_userbyid(datdba) as db_owner,
+               'local' as database_type,
+               description,
+               datallowconn,
+               datconfig,
+               datacl,
+               database_options
+        from pg_database;
+        """
+
+        db_privileges = []
+        for batch in self.db_client.query(query=query):
+            for (
+                db_name,
+                db_owner,
+                database_type,
+                description,
+                datallowconn,
+                datconfig,
+                datacl,
+                database_options,
+            ) in batch:
+                db_privileges.append(
+                    {
+                        "db_name": db_name,
+                        "db_owner": db_owner,
+                        "database_type": database_type,
+                        "description": description,
+                        "datallowconn": datallowconn,
+                        "datconfig": datconfig,
+                        "datacl": self.parse_acl(datacl, "databases"),
+                        "database_options": database_options,
+                    }
+                )
+
+        return db_privileges
 
     def get_db_object_hierarchy(self):
         hierarchy = {}
 
         for db_name in self.get_database_names():
-            print(db_name)
             db_client = self.create_db_client(db_name)
 
             query = """
@@ -39,7 +75,7 @@ class PostgresManagerService(DatabaseManager):
             from information_schema.tables;
             """
             for result in db_client.query(query):
-                for db_name, table_schema, table_name, table_type in result:
+                for _, table_schema, table_name, table_type in result:
                     if db_name not in hierarchy:
                         hierarchy[db_name] = {}
 
@@ -63,7 +99,25 @@ class PostgresManagerService(DatabaseManager):
         return db_names
 
     def get_db_schema_details(self):
-        raise NotImplementedError()
+        db_client = self.create_db_client(self.db_name)
+
+        query = """
+        select nspname  as schema_name,
+               nspowner as schema_owner,
+               'local'  as schema_type
+        from pg_namespace
+        """
+
+        schema_details = []
+        for _, schema_name, schema_owner in db_client.query(query):
+            schema_details.append(
+                {
+                    "schema_name": schema_name,
+                    "schema_owner": schema_owner,
+                }
+            )
+
+        return schema_details
 
     def get_user_roles(self, username):
         raise NotImplementedError()
@@ -111,10 +165,50 @@ class PostgresManagerService(DatabaseManager):
             return ""
 
     def get_tables_in_schema(self, schema_name: str):
-        raise NotImplementedError()
+        table_details = []
+
+        query = """
+        select table_catalog as db_name,
+               table_schema,
+               table_name,
+               table_type
+        from information_schema.tables;
+        """
+        for result in self.db_client.query(query):
+            for actual_db_name, table_schema, table_name, table_type in result:
+
+                table_owner = None
+                try:
+                    table_owner = self.get_table_owner(schema_name, table_name)[
+                        "tableowner"
+                    ]
+                except Exception as e:
+                    print(f"table_owner not found for {table_owner}")
+                    print(e)
+
+                table_details.append(
+                    {
+                        "db": actual_db_name,
+                        "schema_name": schema_name,
+                        "table_name": table_name,
+                        "table_owner": table_owner,
+                        "created_at": "unknown",
+                        "size": "unknown",
+                        "table_desc": self.get_table_comment(schema_name, table_name),
+                    }
+                )
+
+        return table_details
 
     def get_db_owner(self, db_name: str):
-        raise NotImplementedError()
+        query = f"""
+        select pg_get_userbyid(datdba) as db_owner,
+               datname as db_name
+        from pg_database db
+        where datname = '{self.db_name}'
+        """
+
+        return self.db_client.one(query)
 
     def get_table_owner(self, schema_name: str, table_name: str):
         query = f"""
