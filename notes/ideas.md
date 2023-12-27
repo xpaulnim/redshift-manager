@@ -50,4 +50,4 @@
 
 #### money
 * advertise on stackoverflow questions asking for help like these with the taglines above
-* * advertise on Google search keywords that include redshift and postgres system table names eg pg_class, pg_namsepace
+* advertise on Google search keywords that include redshift and postgres system table names eg pg_class, pg_namsepace
