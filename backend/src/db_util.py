@@ -139,3 +139,25 @@ class RedshiftClient(DbClient):
             drivername="redshift+redshift_connector",
             **kwargs,
         )
+
+
+class SQLiteClient(DbClient):
+    def __init__(
+        self,
+        absolute_db_file_path: str,
+        as_dict: bool = True,
+        log_sql: bool = True,
+        **kwargs,
+    ):
+        super().__init__(
+            host=None,
+            port=None,
+            database=absolute_db_file_path,
+            username=None,
+            password=None,
+            as_dict=as_dict,
+            query=None,
+            log_sql=log_sql,
+            drivername="sqlite",
+            **kwargs,
+        )

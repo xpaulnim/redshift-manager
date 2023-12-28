@@ -45,31 +45,33 @@ export default function AddDbConnection(props) {
             <h1>Add Connection</h1>
             <FormControl >
                 <Stack direction="column" sx={{maxWidth: 500}}>
-
                     <InputLabel htmlFor="db-type-select">Type</InputLabel>
                     <Select labelId="db-type-select"
-                            name="dbTypeSelect"
-                            value={dbConnectionFormValues["dbTypeSelect"]}
+                            name="dbType"
+                            value={dbConnectionFormValues["dbType"]}
                             onChange={handleDbSelectChanged}>
 
                         <MenuItem value={"Redshift"}>Redshift</MenuItem>
                         <MenuItem value={"Postgres"}>Postgres</MenuItem>
                     </Select>
 
-                    <InputLabel htmlFor="host-input">Host</InputLabel>
-                    <Input id="host-input" name="hostInput" required={true} onChange={handleInputChanged} />
+                    <InputLabel htmlFor="connection-name-input">Connection name</InputLabel>
+                    <Input id="connection-name-input" name="connectionName" required={true} onChange={handleInputChanged} />
+
+                    <InputLabel htmlFor="hostname-input">Hostname</InputLabel>
+                    <Input id="hostname-input" name="hostname" required={true} onChange={handleInputChanged} />
 
                     <InputLabel htmlFor="port-input">Port</InputLabel>
-                    <Input id="port-input" name="portInput" required={true} onChange={handleInputChanged} />
+                    <Input id="port-input" name="port" required={true} onChange={handleInputChanged} />
 
-                    <InputLabel htmlFor="db-input">Database</InputLabel>
-                    <Input id="db-input" name="dbInput" required={true}  onChange={handleInputChanged}/>
+                    <InputLabel htmlFor="dbname-input">Database</InputLabel>
+                    <Input id="dbname-input" name="dbName" required={true}  onChange={handleInputChanged}/>
 
-                    <InputLabel htmlFor="username-input">User</InputLabel>
-                    <Input id="username-input" name="usernameInput" required={true} onChange={handleInputChanged} />
+                    <InputLabel htmlFor="username-input">Username</InputLabel>
+                    <Input id="username-input" name="username" required={true} onChange={handleInputChanged} />
 
                     <InputLabel htmlFor="password-input">Password</InputLabel>
-                    <Input id="password-input" name="passwordInput" required={true} type={"password"} onChange={handleInputChanged} />
+                    <Input id="password-input" name="password" required={true} type={"password"} onChange={handleInputChanged} />
 
                     <Button variant="contained" sx={{margin: 1}} onClick={handleOnAddConnectionSubmitClicked}>Submit</Button>
                 </Stack>

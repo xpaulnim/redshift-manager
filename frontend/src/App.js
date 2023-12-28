@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import DbSpecificNav from "./app/DbSpecificNav"
-import AddDbConnection from "./app/AddDbConnection"
+import CreateDbConnection from "./app/CreateDbConnection"
 import {Box, Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material"
 import StorageIcon from '@mui/icons-material/Storage'
 import ApprovalIcon from '@mui/icons-material/Approval'
@@ -23,7 +23,6 @@ export function App() {
                                 </ListItemIcon>
                                 <ListItemText>Prod</ListItemText>
                             </ListItemButton>
-
                         </ListItem>
 
                         <ListItem disablePadding onClick={() => setDbNavOptionSelected({"dbNavOptionSelected": "staging_redshift"})}>
@@ -52,7 +51,7 @@ export function App() {
                     <DbSpecificNav />
                 </div>
                 <div hidden={!(dbNavOptionSelected.dbNavOptionSelected === 'add_source')}>
-                    <AddDbConnection />
+                    <CreateDbConnection />
                 </div>
             </Grid>
         </Grid>

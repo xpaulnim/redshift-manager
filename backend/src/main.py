@@ -1,24 +1,25 @@
+from pathlib import Path
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from app_db import AppDb
 
-from services.postgres_service import PostgresManagerService
+from database_managers import PostgresManager
 
 app = FastAPI()
-
-origins = [
-    "http://localhost:3000",
-    "http://localhost:8000",
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:8000",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-global_db_service = PostgresManagerService
+
+global_db_service = PostgresManager
+app_db = AppDb()
 
 
 @app.get("/")
@@ -120,4 +121,19 @@ async def create_db_conn(request: Request):
     body = await request.json()
     print(body)
 
+    app_db.add_db_connection(
+        connection_name=body["connectionName"],
+        db_type=body["dbType"],
+        hostname=body["hostname"],
+        username=body["username"],
+        password=body["password"],
+    )
+
     return {"data": "Success"}
+
+
+@app.get("/db_connections")
+def db_connections():
+    db_connections = app_db.get_db_connection()
+
+    return {"data": db_connections}
