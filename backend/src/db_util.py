@@ -40,7 +40,7 @@ class DbClient:
         self.as_dict = as_dict
         self.log_sql = log_sql
 
-        print(f"Querying {self.url.host}:{self.url.port}")
+        print(f"Querying {self.url}")
 
     def query(self, query, batch_size=500):
         if self.log_sql:

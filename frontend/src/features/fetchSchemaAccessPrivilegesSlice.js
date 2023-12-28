@@ -13,9 +13,8 @@ const schemaAccessPrivilegesInitialState = {
 
 export const fetchSchemaAccessPrivilegesThunk = createAsyncThunk(
     'backend/fetchSchemaAccessPrivileges',
-    async (schemaName) => {
-        const response = await axios.get('http://localhost:8000/schema_access_privileges/' + schemaName)
-        console.log(response.data)
+    async (arg) => {
+        const response = await axios.get("http://localhost:8000/" + arg["dbConnectionId"] + "/schema_access_privileges/" + arg["schemaName"])
 
         return response.data
     }
@@ -27,20 +26,11 @@ const fetchSchemaAccessPrivilegesSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(fetchSchemaAccessPrivilegesThunk.pending, (state, action) => {
-            console.log("pending state" + state)
-            console.log("pending state" + action)
-
             state.status = 'pending'
         }).addCase(fetchSchemaAccessPrivilegesThunk.fulfilled, (state, action) => {
-            console.log("state" + state)
-            console.log("state" + action)
-
             state.status = 'fulfilled'
             state.data = action.payload.data
         }).addCase(fetchSchemaAccessPrivilegesThunk.rejected, (state, action) => {
-            console.log("failed " + state)
-            console.log("failed " + action)
-
             state.status = 'failed'
         })
     }

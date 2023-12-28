@@ -6,9 +6,19 @@ from db_util import DbClient, PostgresClient, RedshiftClient
 
 
 class DatabaseManager(ABC):
-    def __init__(self, db_name: str):
+    def __init__(
+        self, hostname: str, port: int, db_name: str, username: str, password: str
+    ):
         self.db_name = db_name
-        self.db_client = self.create_db_client(db_name)
+        self.db_client = self.create_db_client(
+            hostname, port, db_name, username, password
+        )
+
+    @abstractmethod
+    def create_db_client(
+        hostname: str, port: int, db_name: str, username: str, password: str
+    ):
+        pass
 
     def get_table_preview(
         self, db_name: str, schema_name: str, table_name: str, limit: int = 100
@@ -20,20 +30,17 @@ class DatabaseManager(ABC):
         print(f"table columns {table_columns}")
 
         query = f"""
-            select {','.join(table_columns)}
-            from "{db_name}"."{schema_name}"."{table_name}"
-            limit {limit};
-            """
+        select {','.join([f'"{col}"' for col in table_columns])}
+        from "{db_name}"."{schema_name}"."{table_name}"
+        limit {limit};
+        """
+        print(query)
 
         table_preview = []
         for result in self.db_client.query(query, batch_size=limit):
             table_preview.extend(result)
 
         return table_columns, table_preview
-
-    @abstractmethod
-    def create_db_client(self, db_name: str) -> DbClient:
-        pass
 
     @abstractmethod
     def get_table_columns(self, schema_name: str, table_name: str):
@@ -48,7 +55,7 @@ class DatabaseManager(ABC):
         pass
 
     @abstractmethod
-    def get_db_owner(self, db_name: str):
+    def get_db_owner(self):
         pass
 
     @abstractmethod
@@ -89,19 +96,21 @@ class DatabaseManager(ABC):
 
 
 class PostgresManager(DatabaseManager):
-    def __init__(self, db_name: str = "postgres"):
-        super().__init__(db_name)
+    def __init__(
+        self, hostname: str, port: int, db_name: str, username: str, password: str
+    ):
+        super().__init__(hostname, port, db_name, username, password)
 
-    @staticmethod
-    def create_db_client(db_name: str, as_dict=False):
-        # TODO: Make this generic and inject it into the class
+    def create_db_client(
+        self, hostname: str, port: int, db_name: str, username: str, password: str
+    ):
         return PostgresClient(
-            host=os.environ["POSTGRES_HOST"],
-            port=int(os.environ.get("POSTGRES_PORT", 5432)),
+            host=hostname,
+            port=port,
             database=db_name,
-            username=os.environ["POSTGRES_USERNAME"],
-            password=os.environ["POSTGRES_PASSWORD"],
-            as_dict=as_dict,
+            username=username,
+            password=password,
+            as_dict=False,
         )
 
     def get_db_access_privileges(self):
@@ -148,8 +157,6 @@ class PostgresManager(DatabaseManager):
         hierarchy = {}
 
         for db_name in self.get_database_names():
-            db_client = self.create_db_client(db_name)
-
             query = """
             select table_catalog as db_name,
                    table_schema,
@@ -157,7 +164,7 @@ class PostgresManager(DatabaseManager):
                    table_type
             from information_schema.tables;
             """
-            for result in db_client.query(query):
+            for result in self.db_client.query(query):
                 for _, table_schema, table_name, table_type in result:
                     if db_name not in hierarchy:
                         hierarchy[db_name] = {}
@@ -182,8 +189,6 @@ class PostgresManager(DatabaseManager):
         return db_names
 
     def get_db_schema_details(self):
-        db_client = self.create_db_client(self.db_name)
-
         query = """
         select nspname  as schema_name,
                nspowner as schema_owner,
@@ -192,7 +197,7 @@ class PostgresManager(DatabaseManager):
         """
 
         schema_details = []
-        for _, schema_name, schema_owner in db_client.query(query):
+        for _, schema_name, schema_owner in self.db_client.query(query):
             schema_details.append(
                 {
                     "schema_name": schema_name,
@@ -274,7 +279,7 @@ class PostgresManager(DatabaseManager):
 
         return table_details
 
-    def get_db_owner(self, db_name: str):
+    def get_db_owner(self):
         query = f"""
         select pg_get_userbyid(datdba) as db_owner,
                datname as db_name
@@ -481,18 +486,21 @@ class PostgresManager(DatabaseManager):
 
 
 class RedshiftManager(PostgresManager):
-    def __init__(self, db_name: str = "dev"):
-        super().__init__(db_name)
+    def __init__(
+        self, hostname: str, port: int, db_name: str, username: str, password: str
+    ):
+        super().__init__(hostname, port, db_name, username, password)
 
-    def create_db_client(self, db_name: str, as_dict=False):
-        # TODO: Make this generic and inject it into the class
+    def create_db_client(
+        self, hostname: str, port: int, db_name: str, username: str, password: str
+    ):
         return RedshiftClient(
-            host=os.environ["REDSHIFT_HOST"],
-            port=5439,
+            host=hostname,
+            port=port,
             database=db_name,
-            username=os.environ["REDSHIFT_USERNAME"],
-            password=os.environ["REDSHIFT_PASSWORD"],
-            as_dict=as_dict,
+            username=username,
+            password=password,
+            as_dict=False,
         )
 
     def get_tables_in_schema(self, schema_name: str):
@@ -532,7 +540,7 @@ class RedshiftManager(PostgresManager):
 
         return table_details
 
-    def get_db_owner(self, db_name: str):
+    def get_db_owner(self):
         query = f"""
         select pg_get_userbyid(database_owner) as db_owner,
                db.database_name as db_name

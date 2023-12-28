@@ -12,16 +12,7 @@ export function FeatureNavLeft({onMainNavOptionSelected}) {
         <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
             <nav aria-label="main nav">
                 <List>
-                    <ListItem disablePadding onClick={() => onMainNavOptionSelected({"mainNavOptionSelected": "sql_editor"})}>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                <TerminalIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="SQL Editor" />
-                        </ListItemButton>
-                    </ListItem>
-
-                    <ListItem disablePadding onClick={() => onMainNavOptionSelected({"mainNavOptionSelected": "database"})}>
+                    <ListItem disablePadding onClick={() => onMainNavOptionSelected("database")}>
                         <ListItemButton>
                             <ListItemIcon disablePadding>
                                 <StorageIcon />
@@ -30,7 +21,16 @@ export function FeatureNavLeft({onMainNavOptionSelected}) {
                         </ListItemButton>
                     </ListItem>
 
-                    <ListItem disablePadding onClick={() => onMainNavOptionSelected({"mainNavOptionSelected": "users"})}>
+                    <ListItem disablePadding onClick={() => onMainNavOptionSelected("sql_editor")}>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <TerminalIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="SQL Editor" />
+                        </ListItemButton>
+                    </ListItem>
+
+                    <ListItem disablePadding onClick={() => onMainNavOptionSelected("users")}>
                         <ListItemButton>
                             <ListItemIcon>
                                 <AccountCircleIcon />
@@ -39,7 +39,7 @@ export function FeatureNavLeft({onMainNavOptionSelected}) {
                         </ListItemButton>
                     </ListItem>
 
-                    <ListItem disablePadding onClick={() => onMainNavOptionSelected({"mainNavOptionSelected": "masking"})}>
+                    <ListItem disablePadding onClick={() => onMainNavOptionSelected("masking")}>
                         <ListItemButton>
                             <ListItemIcon>
                                 <VisibilityIcon />
@@ -48,7 +48,7 @@ export function FeatureNavLeft({onMainNavOptionSelected}) {
                         </ListItemButton>
                     </ListItem>
 
-                    <ListItem disablePadding onClick={() => onMainNavOptionSelected({"mainNavOptionSelected": "queries"})}>
+                    <ListItem disablePadding onClick={() => onMainNavOptionSelected("queries")}>
                         <ListItemButton>
                             <ListItemIcon>
                                 <HistoryIcon />

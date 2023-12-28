@@ -4,7 +4,7 @@ import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow}
 import {useDispatch, useSelector} from "react-redux"
 import {fetchTableDetailsThunk} from "../features/fetchTableDetailsSlice"
 
-export default function TableDetailsTab({table}) {
+export default function TableDetailsTab({dbConnectionId, table}) {
     const [currentTable, setCurrentTable] = useState({
         "currentTable": ""
     })
@@ -16,7 +16,7 @@ export default function TableDetailsTab({table}) {
         console.log("table is " + table)
 
         setCurrentTable(({"currentTable": table}))
-        dispatch(fetchTableDetailsThunk(table))
+        dispatch(fetchTableDetailsThunk({"dbConnectionId": dbConnectionId, "tableName": table}))
     }
 
     const tableColumns = (

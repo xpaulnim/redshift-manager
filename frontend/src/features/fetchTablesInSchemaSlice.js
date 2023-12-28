@@ -9,12 +9,8 @@ const initialTablesInSchemaState = {
 
 export const fetchTablesInSchemaThunk = createAsyncThunk(
     'backend/fetchTablesInSchema',
-    async(schemaName) => {
-        console.log('http://localhost:8000/tables_in_schema/' + schemaName)
-
-        const response = await axios.get('http://localhost:8000/tables_in_schema/' + schemaName)
-        console.log(response.data)
-
+    async(arg) => {
+        const response = await axios.get("http://localhost:8000/" + arg["dbConnectionId"] + "/tables_in_schema/" + arg["schemaName"])
         return response.data
     }
 )
@@ -25,9 +21,6 @@ const fetchTablesInSchemaSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase('backend/fetchTablesInSchema/fulfilled', (state, action) => {
-            console.log("fulfilled: " + state)
-            console.log("state: " + action.payload.data)
-
             state.status = 'fulfilled'
             state.data = action.payload.data
         })

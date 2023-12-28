@@ -14,10 +14,6 @@ export REDSHIFT_USERNAME=
 export REDSHIFT_PASSWORD=
 # or
 cd backend/src;
-export PYTHONPATH=$PWD
-export POSTGRES_HOST=
-export POSTGRES_PORT=  # 5432 by default
-export POSTGRES_USERNAME=
-export POSTGRES_PASSWORD=
+export PYTHONPATH=$PWD;
 uvicorn main:app --reload
 ```

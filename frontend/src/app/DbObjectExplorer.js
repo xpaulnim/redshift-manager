@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState} from "react"
 import {Grid, Stack, TextField} from "@mui/material"
 import DbObjectDetails from "./DbObjectDetails"
 import {DbObjectTreeView} from "./DbObjectTreeView"
@@ -6,23 +6,18 @@ import {useDispatch, useSelector} from "react-redux"
 import {fetchDbOutlineThunk} from "../features/fetchDbOutlineSlice"
 import {fetchTablesInSchemaThunk} from "../features/fetchTablesInSchemaSlice"
 
-export function DbObjectExplorer(props) {
+export function DbObjectExplorer({dbConnectionId}) {
     const [objectSelected, showObjectDetails] = useState({
-        "objectSelected": "dev"
+        "objectSelected": ""
     })
 
     const dispatch = useDispatch()
     const dbOutline = useSelector(state => state.dbOutline)  // state store
     const dbOutlineStatus = useSelector(state => state.dbOutline.status)
 
-    // TODO: Why does this seem to be invoked twice
-    useEffect(() => {
-        console.log("dbOutlineStatus:" + dbOutlineStatus)
-
-        if (dbOutlineStatus === 'init') {
-            dispatch(fetchDbOutlineThunk("dbt"))
-        }
-    }, [dbOutlineStatus, dispatch])
+    if (dbOutlineStatus === 'init' && dbConnectionId !== null) {
+        dispatch(fetchDbOutlineThunk({"dbConnectionId": dbConnectionId}))
+    }
 
     return (
         <Grid container spacing={2}>
@@ -37,8 +32,7 @@ export function DbObjectExplorer(props) {
             </Stack>
 
             <Grid item xs={8}>
-                <button onClick={() => dispatch(fetchTablesInSchemaThunk(objectSelected.objectSelected))}>fetch details</button>
-                <DbObjectDetails objectSelected={objectSelected.objectSelected}/>
+                <DbObjectDetails dbConnectionId={dbConnectionId} objectSelected={objectSelected.objectSelected}/>
             </Grid>
         </Grid>
     )

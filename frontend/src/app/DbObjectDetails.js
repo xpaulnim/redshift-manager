@@ -9,8 +9,6 @@ import {fetchDatabaseOwnerThunk} from "../features/fetchDatabaseOwnerSlice"
 
 
 function objectTypeFromName(fullObjectName) {
-    console.log(fullObjectName)
-
     switch(fullObjectName.split(".").length) {
         case 1:
             return 'database'
@@ -25,7 +23,7 @@ function objectTypeFromName(fullObjectName) {
     }
 }
 
-export default function DbObjectDetails({objectSelected}) {
+export default function DbObjectDetails({dbConnectionId, objectSelected}) {
     const objectType = objectTypeFromName(objectSelected)
 
     const dispatch = useDispatch()
@@ -33,11 +31,12 @@ export default function DbObjectDetails({objectSelected}) {
     const dbOwnerStatus = useSelector(state => state.dbOwner.status)
 
     useEffect(() => {
-        console.log("dbOwner:" + dbOwnerStatus)
+        console.log("objectSelected " + objectSelected)
+        console.log("dbConnectionId " + dbConnectionId)
 
         if (dbOwnerStatus === 'init') {
-            console.log('dispatched')
-            dispatch(fetchDatabaseOwnerThunk(objectSelected))
+            console.log('dispatched: ' + dbConnectionId)
+            dispatch(fetchDatabaseOwnerThunk({"dbConnectionId": dbConnectionId, "databaseName": objectSelected}))
         }
     }, [dbOwnerStatus, dispatch]);
 
@@ -56,13 +55,13 @@ export default function DbObjectDetails({objectSelected}) {
             <div hidden={!(objectType === 'schema')}>
                 <h3>schema {objectSelected} is selected</h3>
 
-                <SchemaDetailsTab schema={objectSelected}/>
+                <SchemaDetailsTab dbConnectionId={dbConnectionId} schema={objectSelected}/>
             </div>
 
             <div hidden={!(objectType === 'table')}>
                 <h3>table {objectSelected} is selected</h3>
 
-                <TableDetailsTab table={objectSelected}/>
+                <TableDetailsTab dbConnectionId={dbConnectionId} table={objectSelected}/>
             </div>
         </Box>
     )

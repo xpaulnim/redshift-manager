@@ -9,12 +9,8 @@ const initialUserListState = {
 
 export const fetchUserListThunk = createAsyncThunk(
     'backend/fetchUserList',
-    async() => {
-        console.log('http://localhost:8000/user_list')
-
-        const response = await axios.get('http://localhost:8000/user_list')
-        console.log(response.data)
-
+    async(arg) => {
+        const response = await axios.get("http://localhost:8000/" + arg["dbConnectionId"] +"/user_list")
         return response.data
     }
 )
@@ -24,9 +20,6 @@ const fetchUserListSlice = createSlice({
     initialState: initialUserListState,
     extraReducers: (builder) => {
         builder.addCase(fetchUserListThunk.fulfilled, (state, action) => {
-            console.log("fulfilled: " + state)
-            console.log("state: " + action.payload.data)
-
             state.status = 'fulfilled'
             state.data = action.payload.data
         })

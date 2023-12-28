@@ -1,40 +1,45 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import DbSpecificNav from "./app/DbSpecificNav"
 import CreateDbConnection from "./app/CreateDbConnection"
-import {Box, Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material"
+import {Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material"
 import StorageIcon from '@mui/icons-material/Storage'
-import ApprovalIcon from '@mui/icons-material/Approval'
 import AddIcon from '@mui/icons-material/Add'
+import { useDispatch, useSelector } from "react-redux"
+import { fetchDbConnectionsThunk } from './features/fetchDbConnectionsSlice'
 
 export function App() {
-    const [dbNavOptionSelected, setDbNavOptionSelected] = useState({
-        "dbNavOptionSelected": "staging_redshift"
+    const [componentState, setComponentState] = useState({
+        "activeDbConnectionId": null,
+        "typeOfNavItemSelected": "DB_CONNECTION"  // DB_CONNECTION, ADD_DB_CONNECTION
     })
+
+    const dispatch = useDispatch()
+    const dbConnections = useSelector(state => state.dbConnections)
+    const dbConnectionsStatus = useSelector(state => state.dbConnections.status)
+
+    useEffect(() => {
+        if (dbConnections.status === 'init') {
+            dispatch(fetchDbConnectionsThunk())
+        }
+    }, [dbConnectionsStatus, dispatch])
 
     return (
         <Grid container>
             <Grid item xs={2}  >
                 <nav aria-label="connected databases">
                     <List>
-                        <ListItem disablePadding onClick={() => setDbNavOptionSelected({"dbNavOptionSelected": "production_redshift"})}>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <StorageIcon />
-                                </ListItemIcon>
-                                <ListItemText>Prod</ListItemText>
-                            </ListItemButton>
-                        </ListItem>
+                        {dbConnections.data.map((row) => (
+                            <ListItem disablePadding onClick={() => setComponentState({"activeDbConnectionId": row["id"], "typeOfNavItemSelected": "DB_CONNECTION"})}>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <StorageIcon />
+                                    </ListItemIcon>
+                                    <ListItemText>{row["connection_name"]}</ListItemText>
+                                </ListItemButton>
+                            </ListItem>
+                        ))}
 
-                        <ListItem disablePadding onClick={() => setDbNavOptionSelected({"dbNavOptionSelected": "staging_redshift"})}>
-                            <ListItemButton>
-                                <ListItemIcon disablePadding>
-                                    <ApprovalIcon />
-                                </ListItemIcon>
-                                <ListItemText>Staging</ListItemText>
-                            </ListItemButton>
-                        </ListItem>
-
-                        <ListItem disablePadding onClick={() => setDbNavOptionSelected({"dbNavOptionSelected": "add_source"})}>
+                        <ListItem disablePadding onClick={() => setComponentState({"typeOfNavItemSelected": "ADD_DB_CONNECTION"})}>
                             <ListItemButton alignItems="center">
                                 <ListItemIcon disablePadding >
                                     <AddIcon />
@@ -47,10 +52,11 @@ export function App() {
             </Grid>
 
             <Grid item xs={10}>
-                <div hidden={!(dbNavOptionSelected.dbNavOptionSelected === 'staging_redshift')}>
-                    <DbSpecificNav />
+                <div hidden={!(componentState.typeOfNavItemSelected === 'DB_CONNECTION')}>
+                    <DbSpecificNav dbConnectionId={componentState.activeDbConnectionId}/>
                 </div>
-                <div hidden={!(dbNavOptionSelected.dbNavOptionSelected === 'add_source')}>
+
+                <div hidden={!(componentState.typeOfNavItemSelected === 'ADD_DB_CONNECTION')}>
                     <CreateDbConnection />
                 </div>
             </Grid>

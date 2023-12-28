@@ -1,6 +1,6 @@
 import {Box, Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material"
 import {TabContainer} from "./TabComponent"
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import {useDispatch, useSelector} from "react-redux"
 import {fetchTablesInSchemaThunk} from "../features/fetchTablesInSchemaSlice"
 import {fetchSchemaAccessPrivilegesThunk} from "../features/fetchSchemaAccessPrivilegesSlice"
@@ -14,9 +14,9 @@ function checkboxFromBool(ticked) {
     return (<Checkbox disabled/>)
 }
 
-export default function SchemaDetailsTab({schema}) {
+export default function SchemaDetailsTab({dbConnectionId, schema}) {
     const [currentSchema, setCurrentSchema] = useState({
-        "currentSchema": ""
+        "currentSchema": null
     })
 
     const dispatch = useDispatch()
@@ -24,14 +24,22 @@ export default function SchemaDetailsTab({schema}) {
     const schemaAccessPrivileges = useSelector(state => state.schemaAccessPrivileges)
     const defaultSchemaAccessPrivileges = useSelector(state => state.defaultSchemaAccessPrivileges)
 
-    if (schema !== currentSchema.currentSchema && schema.split(".").length === 2) {
-        console.log("schema is " + schema)
+//    const tablesInSchemaStatus = useSelector(state => state.tablesInSchema.status)
+//    const schemaAccessPrivilegesStatus = useSelector(state => state.schemaAccessPrivileges.status)
+//    const defaultSchemaAccessPrivilegesStatus = useSelector(state => state.defaultSchemaAccessPrivileges.status)
 
-        setCurrentSchema({"currentSchema": schema})
-        dispatch(fetchTablesInSchemaThunk(schema))
-        dispatch(fetchSchemaAccessPrivilegesThunk(schema))
-        dispatch(fetchDefaultSchemaAccessPrivilegesThunk(schema))
-    }
+//     useEffect(() => {
+        if (schema !== currentSchema.currentSchema && schema.split(".").length === 2) {
+            console.log("schema s is " + schema)
+            console.log("currentSchema " + currentSchema.currentSchema)
+
+            dispatch(fetchTablesInSchemaThunk({"dbConnectionId": dbConnectionId, "schemaName": schema}))
+            dispatch(fetchSchemaAccessPrivilegesThunk({"dbConnectionId": dbConnectionId, "schemaName": schema}))
+            dispatch(fetchDefaultSchemaAccessPrivilegesThunk({"dbConnectionId": dbConnectionId, "schemaName": schema}))
+            setCurrentSchema({"currentSchema": schema})
+        }
+//     }, [tablesInSchemaStatus, schemaAccessPrivilegesStatus, defaultSchemaAccessPrivilegesStatus, dispatch])
+
 
     const tablesPanel = (
         <TableContainer component={Paper}>

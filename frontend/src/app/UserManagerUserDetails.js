@@ -12,7 +12,7 @@ function checkboxFromBool(ticked) {
     return (<Checkbox disabled/>)
 }
 
-export const UserManagerUserDetails = function (props) {
+export function UserManagerUserDetails(dbConnectionId) {
     const [currentUserList, setUserList] = useState({
         "currentUserList": ""
     })
@@ -23,7 +23,7 @@ export const UserManagerUserDetails = function (props) {
     if (currentUserList.currentUserList === "") {
         console.log("fetching user list -> should happen once")
 
-        dispatch(fetchUserListThunk())
+        dispatch(fetchUserListThunk({"dbConnectionId": dbConnectionId}))
         setUserList(userList)
     }
 

@@ -36,7 +36,7 @@ export default function AddDbConnection(props) {
 
     function handleOnAddConnectionSubmitClicked(event) {
         console.log(dbConnectionFormValues)
-        dispatch(createDbConnectionThunk(dbConnectionFormValues))
+        dispatch(createDbConnectionThunk({"dbConnectionFormValues": dbConnectionFormValues}))
         console.log("form sent to backend")
     }
 

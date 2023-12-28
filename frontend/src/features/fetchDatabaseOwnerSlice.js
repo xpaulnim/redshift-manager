@@ -9,11 +9,8 @@ const initialDatabaseOwnerState = {
 
 export const fetchDatabaseOwnerThunk = createAsyncThunk(
     'backend/fetchDatabaseOwner',
-    async (databaseName) => {
-        const response = await axios.get('http://localhost:8000/database_owner/' + databaseName)
-
-        console.log(response.data)
-
+    async (arg) => {
+        const response = await axios.get("http://localhost:8000/" + arg["dbConnectionId"]  +"/database_owner/" + arg["databaseName"])
         return response.data
     }
 )
@@ -24,8 +21,9 @@ const fetchDatabaseOwnerSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(fetchDatabaseOwnerThunk.fulfilled, (state, action) => {
-            console.log("fulfilled" + state)
-            console.log("state" + action)
+            console.log("fulfilled")
+            console.log(state)
+            console.log(action)
 
             state.status = 'fulfilled'
             state.data = action.payload.data

@@ -9,12 +9,10 @@ const databasesOutlineInitState = {
 
 export const fetchDbOutlineThunk = createAsyncThunk(
     /* typePrefix    =*/ 'backend/fetchDbOutline',
-    /* payloadCreator= */ async () => {
+    /* payloadCreator= */ async (arg) => {
         // TODO: Handle error with try-catch
 
-        const response = await axios.get('http://localhost:8000/db_outline')
-        console.log(response.data)
-
+        const response = await axios.get("http://localhost:8000/" + arg["dbConnectionId"] + "/db_outline")
         return response.data
     }
 )
@@ -25,20 +23,11 @@ const fetchDbOutlineSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(fetchDbOutlineThunk.pending, (state, action) => {
-            console.log("pending state" + state)
-            console.log("pending state" + action)
-
             state.status = 'pending'
         }).addCase('backend/fetchDbOutline/fulfilled', (state, action) => {
-            console.log("state" + state)
-            console.log("state" + action)
-
             state.status = 'fulfilled'
             state.data = action.payload.data
         }).addCase(fetchDbOutlineThunk.rejected, (state, action) => {
-            console.log("failed " + state)
-            console.log("failed " + action)
-
             state.status = 'failed'
         })
     }

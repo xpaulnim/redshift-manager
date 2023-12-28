@@ -9,9 +9,8 @@ const defaultSchemaAccessPrivileges = {
 
 export const fetchDefaultSchemaAccessPrivilegesThunk = createAsyncThunk(
     'backend/fetchDefaultSchemaAccessPrivileges',
-    async (schemaName) => {
-        const response = await axios.get('http://localhost:8000/default_schema_access_privileges/' + schemaName)
-        console.log(response.data)
+    async (arg) => {
+        const response = await axios.get("http://localhost:8000/" + arg["dbConnectionId"] + "/default_schema_access_privileges/" + arg["schemaName"])
 
         return response.data
     }
@@ -23,20 +22,11 @@ const fetchDefaultSchemaAccessPrivilegesSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(fetchDefaultSchemaAccessPrivilegesThunk.pending, (state, action) => {
-            console.log("pending state" + state)
-            console.log("pending state" + action)
-
             state.status = 'pending'
         }).addCase(fetchDefaultSchemaAccessPrivilegesThunk.fulfilled, (state, action) => {
-            console.log("state" + state)
-            console.log("state" + action)
-
             state.status = 'fulfilled'
             state.data = action.payload.data
         }).addCase(fetchDefaultSchemaAccessPrivilegesThunk.rejected, (state, action) => {
-            console.log("failed " + state)
-            console.log("failed " + action)
-
             state.status = 'failed'
         })
     }

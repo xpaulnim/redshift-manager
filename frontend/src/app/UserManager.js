@@ -4,7 +4,7 @@ import {UserManagerUserDetails} from "./UserManagerUserDetails"
 import GroupManager from "./GroupManager"
 
 
-export function UserManager(props) {
+export function UserManager({dbConnectionId}) {
     return (
         <Box>
             <TabContainer tabs={[
@@ -18,7 +18,7 @@ export function UserManager(props) {
                 },
                 {
                     "header": "Users",
-                    "content":  <UserManagerUserDetails/>
+                    "content":  <UserManagerUserDetails dbConnectionId={dbConnectionId}/>
                 }
                 ]}/>
         </Box>

@@ -22,8 +22,10 @@ class AppDb:
             connection_name text not null,
             db_type text not null,
             hostname text not null,
+            port text not null,
             username text not null,
-            password text not null
+            password text not null,
+            db_name text
         )
         """
         )
@@ -33,8 +35,10 @@ class AppDb:
         connection_name: str,
         db_type: str,
         hostname: str,
+        port: str,
         username: str,
         password: str,
+        db_name: str = None,
     ):
         query = f"""
         insert into db_connections(
@@ -42,30 +46,39 @@ class AppDb:
             connection_name,
             db_type,
             hostname,
+            port,
             username,
-            password
+            password,
+            db_name
         ) values (
             '{datetime.utcnow().strftime('%s')}',
             '{connection_name}',
             '{db_type}',
             '{hostname}',
+            '{port}',
             '{username}',
-            '{password}'
+            '{password}',
+            '{db_name}'
         )
         """
 
         self.sqlite_client.execute(query)
 
-    def get_db_connection(self):
-        query = """
+    def get_db_connections(self, db_connection_id: int = None):
+        id_filter = f"and id = {db_connection_id}" if db_connection_id else ""
+        query = f"""
         select id,
                created_at,
                connection_name,
                db_type,
                hostname,
+               port,
                username,
-               password
+               password,
+               db_name
         from db_connections
+        where 1=1
+        {id_filter}
         """
 
         db_connections = []
@@ -77,8 +90,10 @@ class AppDb:
                 connection_name,
                 db_type,
                 hostname,
+                port,
                 username,
                 password,
+                db_name,
             ) in batch:
                 db_connections.append(
                     {
@@ -87,8 +102,10 @@ class AppDb:
                         "connection_name": connection_name,
                         "db_type": db_type,
                         "hostname": hostname,
+                        "port": port,
                         "username": username,
                         "password": password,
+                        "db_name": db_name,
                     }
                 )
 
