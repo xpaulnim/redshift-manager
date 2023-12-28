@@ -113,3 +113,13 @@ def list_users():
     user_list = db_service.get_users()
 
     return {"data": user_list}
+
+
+@app.post("/create_db_conn")
+def create_db_conn():
+    ...
+
+
+@app.post("/test_db_conn")
+def test_db_conn():
+    ...
