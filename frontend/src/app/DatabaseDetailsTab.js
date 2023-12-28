@@ -1,6 +1,6 @@
-import {TabContainer} from "./TabComponent";
-import React from "react";
-import {Box, Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import {TabContainer} from "./TabComponent"
+import React from "react"
+import {Box, Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material"
 
 export default function DatabaseDetailsTab(props) {
     const dbPermissions = (

@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from services.postgres_service import PostgresManagerService
@@ -116,10 +116,8 @@ def list_users():
 
 
 @app.post("/create_db_conn")
-def create_db_conn():
-    ...
+async def create_db_conn(request: Request):
+    body = await request.json()
+    print(body)
 
-
-@app.post("/test_db_conn")
-def test_db_conn():
-    ...
+    return {"data": "Success"}

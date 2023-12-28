@@ -1,7 +1,7 @@
-import {Box} from "@mui/material";
-import {TabContainer} from "./TabComponent";
-import {UserManagerUserDetails} from "./UserManagerUserDetails";
-import GroupManager from "./GroupManager";
+import {Box} from "@mui/material"
+import {TabContainer} from "./TabComponent"
+import {UserManagerUserDetails} from "./UserManagerUserDetails"
+import GroupManager from "./GroupManager"
 
 
 export function UserManager(props) {

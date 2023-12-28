@@ -2,11 +2,12 @@ import { configureStore } from '@reduxjs/toolkit'
 
 import fetchDbOutlineReducer from '../features/fetchDbOutlineSlice'
 import fetchDbOwnerReducer from '../features/fetchDatabaseOwnerSlice'
-import fetchTablesInSchemaReducer from "../features/fetchTablesInSchemaSlice";
-import fetchTableDetailsReducer from "../features/fetchTableDetailsSlice";
-import fetchTableUserListReducer from "../features/fetchUserListSlice";
-import fetchSchemaAccessPrivilegesReducer from "../features/fetchSchemaAccessPrivilegesSlice";
-import fetchDefaultSchemaAccessPrivilegesReducer from "../features/fetchDefaultSchemaAccessPrivilegesSlice";
+import fetchTablesInSchemaReducer from "../features/fetchTablesInSchemaSlice"
+import fetchTableDetailsReducer from "../features/fetchTableDetailsSlice"
+import fetchTableUserListReducer from "../features/fetchUserListSlice"
+import fetchSchemaAccessPrivilegesReducer from "../features/fetchSchemaAccessPrivilegesSlice"
+import fetchDefaultSchemaAccessPrivilegesReducer from "../features/fetchDefaultSchemaAccessPrivilegesSlice"
+import createDbConnectionReducer from "../features/createDbConnectionSlice"
 
 export default configureStore ({
     reducer: {
@@ -16,6 +17,7 @@ export default configureStore ({
         tableDetails: fetchTableDetailsReducer,
         userList: fetchTableUserListReducer,
         schemaAccessPrivileges: fetchSchemaAccessPrivilegesReducer,
-        defaultSchemaAccessPrivileges: fetchDefaultSchemaAccessPrivilegesReducer
+        defaultSchemaAccessPrivileges: fetchDefaultSchemaAccessPrivilegesReducer,
+        createDbConnection: createDbConnectionReducer,
     }
 })

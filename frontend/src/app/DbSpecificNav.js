@@ -1,8 +1,8 @@
-import {Box, Grid} from "@mui/material";
-import {FeatureNavLeft} from "./MainNav";
-import {DbObjectExplorer} from "./DbObjectExplorer";
-import {UserManager} from "./UserManager";
-import React, {useState} from "react";
+import {Box, Grid} from "@mui/material"
+import {FeatureNavLeft} from "./MainNav"
+import {DbObjectExplorer} from "./DbObjectExplorer"
+import {UserManager} from "./UserManager"
+import React, {useState} from "react"
 
 export default function  DbSpecificNav(props) {
     const [mainNavOptionSelected, setMainNavOptionSelected] = useState({

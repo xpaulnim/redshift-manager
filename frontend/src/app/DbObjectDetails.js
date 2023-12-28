@@ -1,11 +1,11 @@
 import React, {useEffect} from "react"
 
-import {Box, Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material"
+import {Box} from "@mui/material"
 import DatabaseDetailsTab from "./DatabaseDetailsTab"
 import TableDetailsTab from "./TableDetailsTab"
 import SchemaDetailsTab from "./SchemaDetailsTab"
-import {useDispatch, useSelector} from "react-redux";
-import {fetchDatabaseOwnerThunk} from "../features/fetchDatabaseOwnerSlice";
+import {useDispatch, useSelector} from "react-redux"
+import {fetchDatabaseOwnerThunk} from "../features/fetchDatabaseOwnerSlice"
 
 
 function objectTypeFromName(fullObjectName) {

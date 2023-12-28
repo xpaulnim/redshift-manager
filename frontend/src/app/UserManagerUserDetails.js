@@ -1,9 +1,8 @@
-import {Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
-import {users} from "../data";
-import React, {useState} from "react";
-import {canUseDOM} from "react-redux/es/utils/useIsomorphicLayoutEffect";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchUserListThunk} from "../features/fetchUserListSlice";
+import {Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material"
+
+import React, {useState} from "react"
+import {useDispatch, useSelector} from "react-redux"
+import {fetchUserListThunk} from "../features/fetchUserListSlice"
 
 function checkboxFromBool(ticked) {
     if (ticked) {

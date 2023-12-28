@@ -4,7 +4,7 @@ import DbObjectDetails from "./DbObjectDetails"
 import {DbObjectTreeView} from "./DbObjectTreeView"
 import {useDispatch, useSelector} from "react-redux"
 import {fetchDbOutlineThunk} from "../features/fetchDbOutlineSlice"
-import {fetchTablesInSchemaThunk} from "../features/fetchTablesInSchemaSlice";
+import {fetchTablesInSchemaThunk} from "../features/fetchTablesInSchemaSlice"
 
 export function DbObjectExplorer(props) {
     const [objectSelected, showObjectDetails] = useState({

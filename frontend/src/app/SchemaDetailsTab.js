@@ -3,8 +3,8 @@ import {TabContainer} from "./TabComponent"
 import React, {useState} from "react"
 import {useDispatch, useSelector} from "react-redux"
 import {fetchTablesInSchemaThunk} from "../features/fetchTablesInSchemaSlice"
-import {fetchSchemaAccessPrivilegesThunk} from "../features/fetchSchemaAccessPrivilegesSlice";
-import {fetchDefaultSchemaAccessPrivilegesThunk} from "../features/fetchDefaultSchemaAccessPrivilegesSlice";
+import {fetchSchemaAccessPrivilegesThunk} from "../features/fetchSchemaAccessPrivilegesSlice"
+import {fetchDefaultSchemaAccessPrivilegesThunk} from "../features/fetchDefaultSchemaAccessPrivilegesSlice"
 
 function checkboxFromBool(ticked) {
     if (ticked) {
