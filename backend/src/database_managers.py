@@ -1,3 +1,4 @@
+import json
 import os
 from abc import ABC, abstractmethod
 from typing import Tuple, List, Union
@@ -92,6 +93,10 @@ class DatabaseManager(ABC):
 
     @abstractmethod
     def get_db_access_privileges(self):
+        pass
+
+    @abstractmethod
+    def get_masking_policies(self):
         pass
 
 
@@ -229,6 +234,7 @@ class PostgresManager(DatabaseManager):
                         "col_name": column_name,
                         "col_type": col_type,
                         "col_comment": "unknown",
+                        "col_masks": []
                     }
                 )
 
@@ -274,6 +280,7 @@ class PostgresManager(DatabaseManager):
                         "created_at": "unknown",
                         "size": "unknown",
                         "table_desc": self.get_table_comment(schema_name, table_name),
+                        "mask": "none"
                     }
                 )
 
@@ -484,6 +491,9 @@ class PostgresManager(DatabaseManager):
 
         return default_privileges
 
+    def get_masking_policies(self):
+        raise NotImplementedError()
+
 
 class RedshiftManager(PostgresManager):
     def __init__(
@@ -616,6 +626,24 @@ class RedshiftManager(PostgresManager):
 
         return user_roles
 
+    def get_masks_applied_to_column(self, schema_name: str, table_name: str, column_name: str):
+        query = f"""
+        select distinct role_name, 
+               mask_get_policy_for_role_on_column ('{schema_name}', '{table_name}', '{column_name}', role_name) as applied_mask
+        from svv_roles
+        where applied_mask is not null
+        """
+
+        masks_applied_to_column = []
+        for result in self.db_client.query(query):
+            for role_name, applied_mask in result:
+                masks_applied_to_column.append({
+                    "role_name": role_name,
+                    "applied_mask": applied_mask,
+                })
+
+        return masks_applied_to_column
+
     def get_table_columns(self, schema_name: str, table_name: str):
         query = f"""
         with table_columns as (
@@ -644,6 +672,7 @@ class RedshiftManager(PostgresManager):
                         "col_name": col_name,
                         "col_type": col_type,
                         "col_comment": col_comment,
+                        "col_masks": self.get_masks_applied_to_column(schema_name, table_name, col_name)
                     }
                 )
 
@@ -690,3 +719,87 @@ class RedshiftManager(PostgresManager):
                 )
 
         return db_privileges
+
+    def get_masking_policy_attachments(self, policy_name: str):
+        query = f"""
+        select policy_name,
+               schema_name,
+               table_name,
+               table_type,
+               grantor,
+               grantee,
+               grantee_type,
+               priority,
+               input_columns,
+               output_columns
+        from svv_attached_masking_policy
+        where policy_name = '{policy_name}'
+        """
+
+        attached_masking_policies = []
+        for batch in self.db_client.query(query=query):
+            for (
+                    policy_name,
+                    schema_name,
+                    table_name,
+                    table_type,
+                    grantor,
+                    grantee,
+                    grantee_type,
+                    priority,
+                    input_columns,
+                    output_columns,
+            ) in batch:
+                input_columns = json.loads(input_columns)
+                output_columns = json.loads(output_columns)
+
+                attached_masking_policies.append({
+                    "policy_name": policy_name,
+                    "schema_name": schema_name,
+                    "table_name": table_name,
+                    "table_type": table_type,
+                    "grantor": grantor,
+                    "grantee": grantee,
+                    "grantee_type": grantee_type,
+                    "priority": priority,
+                    "input_columns": input_columns,
+                    "output_columns": output_columns,
+                })
+
+        return attached_masking_policies
+
+    def get_masking_policies(self):
+        query = """
+        select policy_database,
+               policy_name,
+               input_columns,
+               policy_expression,
+               policy_modified_by,
+               policy_modified_time
+        from svv_masking_policy
+        """
+
+        masking_policies = []
+        for batch in self.db_client.query(query=query):
+            for (
+                    policy_database,
+                    policy_name,
+                    input_columns,
+                    policy_expression,
+                    policy_modified_by,
+                    policy_modified_time,
+            ) in batch:
+                input_columns = json.loads(input_columns)
+                policy_expression = json.loads(policy_expression)
+
+                masking_policies.append({
+                    "policy_database": policy_database,
+                    "policy_name": policy_name,
+                    "input_columns": input_columns,
+                    "policy_expression": policy_expression,
+                    "policy_modified_by": policy_modified_by,
+                    "policy_modified_time": policy_modified_time,
+                    "get_masking_policy_attachments": self.get_masking_policy_attachments(policy_name)
+                })
+
+        return masking_policies

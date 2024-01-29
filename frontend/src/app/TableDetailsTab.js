@@ -3,6 +3,7 @@ import React, {useState} from "react"
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material"
 import {useDispatch, useSelector} from "react-redux"
 import {fetchTableDetailsThunk} from "../features/fetchTableDetailsSlice"
+import Link from '@mui/material/Link'
 
 export default function TableDetailsTab({dbConnectionId, table}) {
     const [currentTable, setCurrentTable] = useState({
@@ -27,6 +28,7 @@ export default function TableDetailsTab({dbConnectionId, table}) {
                         <TableCell>Name</TableCell>
                         <TableCell>Type</TableCell>
                         <TableCell>Comment</TableCell>
+                        <TableCell>Mask</TableCell>
                     </TableRow>
                 </TableHead>
 
@@ -38,6 +40,14 @@ export default function TableDetailsTab({dbConnectionId, table}) {
                                 <TableCell align="left">{row.col_name}</TableCell>
                                 <TableCell align="left">{row.col_type}</TableCell>
                                 <TableCell align="left">{row.col_comment}</TableCell>
+                                <TableCell align="left">
+                                    { row.col_masks.map((mask) => (
+                                        <Link href="#">
+                                            {mask.applied_mask}
+                                        </Link>
+                                        ))
+                                    }
+                                </TableCell>
                             </TableRow>
                         ))
                     }

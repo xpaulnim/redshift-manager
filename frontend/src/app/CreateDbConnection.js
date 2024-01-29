@@ -2,6 +2,7 @@ import {Box} from "@mui/material"
 import { FormControl } from "@mui/base/FormControl"
 import {Stack} from "@mui/material"
 
+import Alert from '@mui/material/Alert'
 import InputLabel from "@mui/material/InputLabel"
 import MenuItem from "@mui/material/MenuItem"
 import Select from "@mui/material/Select"
@@ -11,7 +12,7 @@ import Button from "@mui/material/Button"
 import { useDispatch } from "react-redux"
 import { createDbConnectionThunk } from "../features/createDbConnectionSlice"
 
-export default function AddDbConnection(props) {
+export default function AddDbConnection({onDbConnectionAdded}) {
     const [dbConnectionFormValues, setDbConnectionFormValues] = useState({})
 
     const dispatch = useDispatch()
@@ -74,6 +75,8 @@ export default function AddDbConnection(props) {
                     <Input id="password-input" name="password" required={true} type={"password"} onChange={handleInputChanged} />
 
                     <Button variant="contained" sx={{margin: 1}} onClick={handleOnAddConnectionSubmitClicked}>Submit</Button>
+
+                    <Alert severity="success">This is a success message!</Alert>
                 </Stack>
             </FormControl>
         </Box>

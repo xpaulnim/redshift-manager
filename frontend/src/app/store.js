@@ -9,6 +9,7 @@ import fetchSchemaAccessPrivilegesReducer from "../features/fetchSchemaAccessPri
 import fetchDefaultSchemaAccessPrivilegesReducer from "../features/fetchDefaultSchemaAccessPrivilegesSlice"
 import createDbConnectionReducer from "../features/createDbConnectionSlice"
 import fetchDbConnectionsReducer from "../features/fetchDbConnectionsSlice"
+import fetchMaskingPoliciesReducer from "../features/fetchMaskingPoliciesSlice"
 
 export default configureStore ({
     reducer: {
@@ -21,5 +22,6 @@ export default configureStore ({
         defaultSchemaAccessPrivileges: fetchDefaultSchemaAccessPrivilegesReducer,
         createDbConnection: createDbConnectionReducer,
         dbConnections: fetchDbConnectionsReducer,
+        maskingPolicies: fetchMaskingPoliciesReducer
     }
 })

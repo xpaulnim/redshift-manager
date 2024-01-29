@@ -56,6 +56,14 @@ def db_outline(db_connection_id: int):
     return {"data": db_hierarchy}
 
 
+@app.get("/{db_connection_id}/masking_policies")
+def get_masking_policies(db_connection_id: int):
+    db_service = global_db_service(db_connection_id)
+    masking_policies = db_service.get_masking_policies()
+
+    return {"data": masking_policies}
+
+
 @app.get("/{db_connection_id}/database_owner/{db_name}")
 def database_owner(db_connection_id: int, db_name: str):
     db_service = global_db_service(db_connection_id, db_name)

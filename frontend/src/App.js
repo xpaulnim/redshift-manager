@@ -57,7 +57,7 @@ export function App() {
                 </div>
 
                 <div hidden={!(componentState.typeOfNavItemSelected === 'ADD_DB_CONNECTION')}>
-                    <CreateDbConnection />
+                    <CreateDbConnection onDbConnectionAdded={fetchDbConnectionsThunk}/>
                 </div>
             </Grid>
         </Grid>

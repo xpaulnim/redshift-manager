@@ -7,7 +7,7 @@
    viewBox="0 0 541.86667 285.75"
    version="1.1"
    id="svg5"
-   inkscape:version="1.2.2 (b0a84865, 2022-12-01)"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
    sodipodi:docname="gui.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -24,17 +24,24 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="0.74790522"
-     inkscape:cx="1168.5973"
-     inkscape:cy="2669.4559"
-     inkscape:window-width="1795"
-     inkscape:window-height="1313"
-     inkscape:window-x="1262"
-     inkscape:window-y="35"
+     inkscape:zoom="0.97104624"
+     inkscape:cx="1384.5891"
+     inkscape:cy="2613.1608"
+     inkscape:window-width="1800"
+     inkscape:window-height="1036"
+     inkscape:window-x="5"
+     inkscape:window-y="44"
      inkscape:window-maximized="0"
-     inkscape:current-layer="layer1" />
+     inkscape:current-layer="g24593" />
   <defs
-     id="defs2" />
+     id="defs2">
+    <rect
+       x="1060.711"
+       y="2545.7065"
+       width="268.71346"
+       height="114.42822"
+       id="rect2" />
+  </defs>
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
@@ -726,8 +733,8 @@
        id="rect24489"
        width="5.1491547"
        height="5.2727556"
-       x="186.73531"
-       y="659.42035"
+       x="183.24533"
+       y="651.56787"
        ry="1.4568417" />
     <rect
        style="fill:none;stroke:#000000;stroke-width:3.09431;stroke-dasharray:none;stroke-opacity:1"
@@ -791,50 +798,17 @@
          style="fill:#000000;fill-opacity:1;stroke-width:2.09663"
          x="179.63493"
          y="647.49298">Database</tspan></text>
-    <g
-       id="g24513"
-       transform="translate(0,297.71076)">
-      <path
-         sodipodi:type="star"
-         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         id="path24507"
-         inkscape:flatsided="false"
-         sodipodi:sides="3"
-         sodipodi:cx="178.45601"
-         sodipodi:cy="351.16565"
-         sodipodi:r1="1.8593128"
-         sodipodi:r2="3.691035"
-         sodipodi:arg1="1.0102868"
-         sodipodi:arg2="2.0574844"
-         inkscape:rounded="0"
-         inkscape:randomized="0"
-         d="m 179.44445,352.74046 -2.71474,1.68765 -0.13175,-3.19385 -0.10417,-3.19486 2.83182,1.48283 2.81892,1.50721 z"
-         inkscape:transform-center-x="-0.048947747"
-         inkscape:transform-center-y="0.012396693"
-         transform="matrix(-0.01381863,0.41251632,-0.41251632,-0.01381863,329.06522,286.61882)" />
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.65677px;font-family:'Comic Sans MS';-inkscape-font-specification:'Comic Sans MS';fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.09663;stroke-dasharray:none;stroke-opacity:1"
-         x="185.74443"
-         y="358.09793"
-         id="text24511"><tspan
-           sodipodi:role="line"
-           id="tspan24509"
-           style="fill:#000000;fill-opacity:1;stroke-width:2.09663"
-           x="185.74443"
-           y="358.09793">Schema 1</tspan></text>
-    </g>
     <rect
        style="fill:#000000;fill-opacity:0.357513;stroke:none;stroke-width:0.291426;stroke-dasharray:none;stroke-opacity:1"
        id="rect24515"
        width="71.5112"
        height="6.9400201"
-       x="186.17955"
-       y="658.58673"
+       x="182.68958"
+       y="650.73425"
        ry="2.0342038" />
     <g
        id="g24525"
-       transform="translate(8.1854059,306.32208)">
+       transform="translate(4.6954253,298.46962)">
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.65677px;font-family:'Comic Sans MS';-inkscape-font-specification:'Comic Sans MS';fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.09663;stroke-dasharray:none;stroke-opacity:1"
@@ -845,7 +819,7 @@
            id="tspan24517"
            style="fill:#000000;fill-opacity:1;stroke-width:2.09663"
            x="185.74443"
-           y="358.09793">Table</tspan></text>
+           y="358.09793">mask_name</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:'Comic Sans MS';-inkscape-font-specification:'Comic Sans MS';fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
@@ -863,12 +837,12 @@
        id="rect24527"
        width="5.1491547"
        height="5.2727556"
-       x="186.73531"
-       y="666.40576"
+       x="183.24533"
+       y="658.55328"
        ry="1.4568417" />
     <g
        id="g24537"
-       transform="translate(8.1854059,313.30748)">
+       transform="translate(4.6954253,305.45502)">
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.65677px;font-family:'Comic Sans MS';-inkscape-font-specification:'Comic Sans MS';fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.09663;stroke-dasharray:none;stroke-opacity:1"
@@ -879,7 +853,7 @@
            id="tspan24529"
            style="fill:#000000;fill-opacity:1;stroke-width:2.09663"
            x="185.74443"
-           y="358.09793">View</tspan></text>
+           y="358.09793">mask_name</tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:'Comic Sans MS';-inkscape-font-specification:'Comic Sans MS';fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
@@ -893,101 +867,19 @@
            y="355.89938" /></text>
     </g>
     <g
-       id="g24545"
-       transform="translate(0,320.82607)">
-      <path
-         sodipodi:type="star"
-         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         id="path24539"
-         inkscape:flatsided="false"
-         sodipodi:sides="3"
-         sodipodi:cx="178.45601"
-         sodipodi:cy="351.16565"
-         sodipodi:r1="1.8593128"
-         sodipodi:r2="3.691035"
-         sodipodi:arg1="1.0102868"
-         sodipodi:arg2="2.0574844"
-         inkscape:rounded="0"
-         inkscape:randomized="0"
-         d="m 179.44445,352.74046 -2.71474,1.68765 -0.13175,-3.19385 -0.10417,-3.19486 2.83182,1.48283 2.81892,1.50721 z"
-         inkscape:transform-center-x="-0.012400784"
-         inkscape:transform-center-y="-0.048950796"
-         transform="matrix(0.41251632,0.01381863,-0.01381863,0.41251632,112.55708,208.36869)" />
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.65677px;font-family:'Comic Sans MS';-inkscape-font-specification:'Comic Sans MS';fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.09663;stroke-dasharray:none;stroke-opacity:1"
-         x="185.74443"
-         y="358.09793"
-         id="text24543"><tspan
-           sodipodi:role="line"
-           id="tspan24541"
-           style="fill:#000000;fill-opacity:1;stroke-width:2.09663"
-           x="185.74443"
-           y="358.09793">Schema 2</tspan></text>
-    </g>
-    <g
-       id="g24555"
-       transform="matrix(1.3969317,0,0,1.3969317,10.327802,128.51716)">
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6.65677px;font-family:'Comic Sans MS';-inkscape-font-specification:'Comic Sans MS';fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.09663;stroke-dasharray:none;stroke-opacity:1"
-         x="185.74443"
-         y="358.09793"
-         id="text24549"><tspan
-           sodipodi:role="line"
-           id="tspan24547"
-           style="fill:#000000;fill-opacity:1;stroke-width:2.09663"
-           x="185.74443"
-           y="358.09793">Table</tspan></text>
-      <text
-         xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:'Comic Sans MS';-inkscape-font-specification:'Comic Sans MS';fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
-         x="181.56337"
-         y="355.89938"
-         id="text24553"><tspan
-           sodipodi:role="line"
-           id="tspan24551"
-           style="stroke-width:1"
-           x="181.56337"
-           y="355.89938" /></text>
-    </g>
-    <g
        id="g24593"
        transform="matrix(1.3969317,0,0,1.3969317,10.327802,140.18682)">
-      <g
-         id="g24563"
-         transform="translate(-0.92379995)">
-        <rect
-           style="fill:#000000;fill-opacity:0.357513;stroke:none;stroke-width:0.771279;stroke-dasharray:none;stroke-opacity:1"
-           id="rect24557"
-           width="32.442936"
-           height="6.4223094"
-           x="186.90947"
-           y="369.60306"
-           ry="1.2090697" />
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.36054px;font-family:'Comic Sans MS';-inkscape-font-specification:'Comic Sans MS';fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.05844;stroke-dasharray:none;stroke-opacity:1"
-           x="195.6467"
-           y="374.15393"
-           id="text24561"><tspan
-             sodipodi:role="line"
-             id="tspan24559"
-             style="fill:#000000;fill-opacity:1;stroke-width:1.05844"
-             x="195.6467"
-             y="374.15393">DETAILS</tspan></text>
-      </g>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.36923px;font-family:'Comic Sans MS';-inkscape-font-specification:'Comic Sans MS';fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.37614;stroke-dasharray:none;stroke-opacity:1"
-         x="185.87399"
-         y="356.00809"
+         x="186.11133"
+         y="400.38934"
          id="text24567"><tspan
            sodipodi:role="line"
            id="tspan24565"
            style="fill:#000000;fill-opacity:1;stroke-width:1.37614"
-           x="185.87399"
-           y="356.00809">Owner: admin_user</tspan></text>
+           x="186.11133"
+           y="400.38934" /></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.175px;font-family:'Comic Sans MS';-inkscape-font-specification:'Comic Sans MS';fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"
@@ -999,63 +891,72 @@
            style="stroke-width:1"
            x="181.56337"
            y="355.89938" /></text>
+      <rect
+         style="fill:#969696;fill-opacity:1;stroke-width:0.167738"
+         id="rect1"
+         width="186.41512"
+         height="25.378111"
+         x="189.3494"
+         y="347.93869" />
+      <rect
+         style="fill:#969696;fill-opacity:1;stroke-width:0.312716"
+         id="rect1-2"
+         width="186.41512"
+         height="88.205666"
+         x="189.01791"
+         y="376.67203" />
       <text
          xml:space="preserve"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.36923px;font-family:'Comic Sans MS';-inkscape-font-specification:'Comic Sans MS';fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.37614;stroke-dasharray:none;stroke-opacity:1"
-         x="185.87399"
-         y="361.57727"
+         x="192.08318"
+         y="355.1394"
          id="text24575"><tspan
            sodipodi:role="line"
            id="tspan24573"
            style="fill:#000000;fill-opacity:1;stroke-width:1.37614"
-           x="185.87399"
-           y="361.57727">Comment: admin_user</tspan></text>
-      <g
-         id="g24583"
-         transform="translate(19.580338)">
-        <rect
-           style="fill:#000000;fill-opacity:0.357513;stroke:none;stroke-width:0.768528;stroke-dasharray:none;stroke-opacity:1"
-           id="rect24577"
-           width="32.211983"
-           height="6.4223094"
-           x="199.84267"
-           y="369.60306"
-           ry="1.2090697" />
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.36054px;font-family:'Comic Sans MS';-inkscape-font-specification:'Comic Sans MS';fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.05844;stroke-dasharray:none;stroke-opacity:1"
-           x="207.1942"
-           y="374.15393"
-           id="text24581"><tspan
-             sodipodi:role="line"
-             id="tspan24579"
-             style="fill:#000000;fill-opacity:1;stroke-width:1.05844"
-             x="207.1942"
-             y="374.15393">SCHEMAS</tspan></text>
-      </g>
-      <g
-         id="g24591"
-         transform="translate(54.269642)">
-        <rect
-           style="fill:#000000;fill-opacity:0.357513;stroke:none;stroke-width:0.768085;stroke-dasharray:none;stroke-opacity:1"
-           id="rect24585"
-           width="32.174843"
-           height="6.4223094"
-           x="198.45697"
-           y="369.60306"
-           ry="1.2090697" />
-        <text
-           xml:space="preserve"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.36054px;font-family:'Comic Sans MS';-inkscape-font-specification:'Comic Sans MS';fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.05844;stroke-dasharray:none;stroke-opacity:1"
-           x="202.1133"
-           y="374.15393"
-           id="text24589"><tspan
-             sodipodi:role="line"
-             id="tspan24587"
-             style="fill:#000000;fill-opacity:1;stroke-width:1.05844"
-             x="202.1133"
-             y="374.15393">PERMISSIONS</tspan></text>
-      </g>
+           x="192.08318"
+           y="355.1394"
+           dx="0 0 0 0 0 0 0 0 0 0">Input column - column type</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.36923px;font-family:'Comic Sans MS';-inkscape-font-specification:'Comic Sans MS';fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.37614;stroke-dasharray:none;stroke-opacity:1"
+         x="192.13196"
+         y="360.67987"
+         id="text24575-0"><tspan
+           sodipodi:role="line"
+           id="tspan24573-9"
+           style="fill:#000000;fill-opacity:1;stroke-width:1.37614"
+           x="192.13196"
+           y="360.67987"
+           dx="0 0 0 0 0 0 0 0 0 0">Input column - column type</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.36923px;font-family:'Comic Sans MS';-inkscape-font-specification:'Comic Sans MS';fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.37614;stroke-dasharray:none;stroke-opacity:1"
+         x="192.15413"
+         y="366.38895"
+         id="text24575-0-5"><tspan
+           sodipodi:role="line"
+           id="tspan24573-9-6"
+           style="fill:#000000;fill-opacity:1;stroke-width:1.37614"
+           x="192.15413"
+           y="366.38895"
+           dx="0 0 0 0 0 0 0 0 0 0">Input column - column type</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.36923px;font-family:'Comic Sans MS';-inkscape-font-specification:'Comic Sans MS';fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.37614;stroke-dasharray:none;stroke-opacity:1"
+         x="193.82288"
+         y="384.33438"
+         id="text24575-0-5-9"><tspan
+           sodipodi:role="line"
+           id="tspan24573-9-6-4"
+           style="fill:#000000;fill-opacity:1;stroke-width:1.37614"
+           x="193.82288"
+           y="384.33438">CAST(CAST(NULL AS VARCHAR) AS VARCHAR(256))</tspan></text>
+      <text
+         xml:space="preserve"
+         transform="matrix(0.1894032,0,0,0.1894032,-7.3932047,-100.35338)"
+         id="text1"
+         style="fill:#969696;fill-opacity:1;white-space:pre;shape-inside:url(#rect2)" />
     </g>
   </g>
 </svg>

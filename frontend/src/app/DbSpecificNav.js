@@ -2,15 +2,16 @@ import {Box, Grid} from "@mui/material"
 import {FeatureNavLeft} from "./FeatureNavLeft"
 import {DbObjectExplorer} from "./DbObjectExplorer"
 import {UserManager} from "./UserManager"
-import React, {useEffect, useState} from "react"
+import MaskTablesComponent from "./MaskTablesComponent"
+import React, {useState} from "react"
 
-export default function  DbSpecificNav({dbConnectionId}) {
+export default function DbSpecificNav({dbConnectionId}) {
     const [componentState, setComponentState] = useState({
         "currentDbConnectionId": null,
         "mainNavOptionSelected": "database"  // database, users, sql_editor, masking, queries
     })
 
-    if(componentState.currentDbConnectionId === null && dbConnectionId !== null && componentState.currentDbConnectionId !== dbConnectionId) {
+    if (componentState.currentDbConnectionId === null && dbConnectionId !== null && componentState.currentDbConnectionId !== dbConnectionId) {
         console.log("Initialising connection " + dbConnectionId)
         setComponentState({
             ...componentState,
@@ -43,12 +44,16 @@ export default function  DbSpecificNav({dbConnectionId}) {
                         <div hidden={!(componentState.mainNavOptionSelected === 'users')}>
                             <UserManager dbConnectionId={dbConnectionId}/>
                         </div>
+
+                        <div hidden={!(componentState.mainNavOptionSelected === 'masking')}>
+                            <MaskTablesComponent dbConnectionId={dbConnectionId}/>
+                        </div>
+
+                        <div hidden={componentState.currentDbConnectionId !== null}>
+                            <p>Click one of the db connections in the menu</p>
+                        </div>
                     </Grid>
                 </Grid>
-            </div>
-
-            <div hidden={componentState.currentDbConnectionId !== null}>
-                <p>Click one of the db connections in the menu</p>
             </div>
         </Box>
     )

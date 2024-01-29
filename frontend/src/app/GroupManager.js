@@ -49,23 +49,22 @@ export default function GroupManager(props) {
                                     <TableCell>usage</TableCell>
                                 </TableRow>
                             </TableHead>
-                            <TableRow
-                                key="">
-                                <TableCell align="left">grantor</TableCell>
-                                <TableCell align="left">grantee</TableCell>
-                                <TableCell align="left">unlimited</TableCell>
-                                <TableCell align="left">
-                                    <Checkbox disabled checked/>
-                                </TableCell>
-                                <TableCell align="left">
-                                    <Checkbox disabled checked/>
-                                </TableCell>
-                                <TableCell align="left">
-                                    <Checkbox disabled/>
-                                </TableCell>
-                            </TableRow>
                             <TableBody>
-
+                                <TableRow
+                                    key="">
+                                    <TableCell align="left">grantor</TableCell>
+                                    <TableCell align="left">grantee</TableCell>
+                                    <TableCell align="left">unlimited</TableCell>
+                                    <TableCell align="left">
+                                        <Checkbox disabled checked/>
+                                    </TableCell>
+                                    <TableCell align="left">
+                                        <Checkbox disabled checked/>
+                                    </TableCell>
+                                    <TableCell align="left">
+                                        <Checkbox disabled/>
+                                    </TableCell>
+                                </TableRow>
                             </TableBody>
                         </Table>
                     </TableContainer>
