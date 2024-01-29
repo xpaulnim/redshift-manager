@@ -137,10 +137,18 @@ def table_details(db_connection_id: int, table_name: str):
     }
 
 
+@app.get("/{db_connection_id}/database_details/{db_name}")
+def database_details(db_connection_id: int, db_name: str):
+    db_service = global_db_service(db_connection_id, db_name)
+    db_privileges = db_service.get_db_access_privileges()
+
+    return {
+        "data": db_privileges
+    }
+
+
 @app.get("/{db_connection_id}/user_list")
-def list_users(
-    db_connection_id: int,
-):
+def list_users(db_connection_id: int):
     db_service = global_db_service(db_connection_id)
     user_list = db_service.get_users()
 

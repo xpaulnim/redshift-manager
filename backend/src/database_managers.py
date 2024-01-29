@@ -17,7 +17,7 @@ class DatabaseManager(ABC):
 
     @abstractmethod
     def create_db_client(
-        hostname: str, port: int, db_name: str, username: str, password: str
+        self, hostname: str, port: int, db_name: str, username: str, password: str
     ):
         pass
 
