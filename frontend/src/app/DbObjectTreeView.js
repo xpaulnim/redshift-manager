@@ -42,8 +42,9 @@ export function DbObjectTreeView({databaseOutline, onDbObjectSelected}) {
     return (
         <TreeView
             defaultCollapseIcon={<ExpandMoreIcon/>}
-            defaultExpandIcon={<ChevronRightIcon/>}>
-
+            defaultExpandIcon={<ChevronRightIcon/>}
+            sx={{maxHeight: '88vh', maxWidth: 250, overflow: 'auto' }}
+        >
             {
                 Object.entries(databaseOutline).map(([database_name, schema_obj]) =>
                     <DatabaseTreeItemComponent

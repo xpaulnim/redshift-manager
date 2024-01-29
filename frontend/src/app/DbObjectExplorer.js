@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react"
-import {Grid, Stack, TextField} from "@mui/material"
+import {Grid, Stack, Box, TextField} from "@mui/material"
 import DbObjectDetails from "./DbObjectDetails"
 import {DbObjectTreeView} from "./DbObjectTreeView"
 import {useDispatch, useSelector} from "react-redux"
@@ -20,19 +20,24 @@ export function DbObjectExplorer({dbConnectionId}) {
     }
 
     return (
-        <Grid container spacing={2}>
-            <Stack spacing={2}>
-                <TextField label="Filter" id="outlined-basic" variant="outlined" size="small"/>
+        <Grid container>
+            <Grid item xs={2}>
+                <Stack item>
+                    <TextField label="Filter" id="outlined-basic" variant="outlined" size="small"/>
 
-                <Grid item xs={4}>
-                    <DbObjectTreeView
-                        databaseOutline={dbOutline.data}
-                        onDbObjectSelected={showObjectDetails}/>
-                </Grid>
-            </Stack>
+                    <Box  >
+                        <DbObjectTreeView
+                            databaseOutline={dbOutline.data}
+                            onDbObjectSelected={showObjectDetails}
+                            sx={{ maxHeight: '100vh', maxWidth: 250, overflow: 'auto' }}
+                        />
+                    </Box>
+                </Stack>
+            </Grid>
 
-            <Grid item xs={8}>
-                <DbObjectDetails dbConnectionId={dbConnectionId} objectSelected={objectSelected.objectSelected}/>
+            <Grid item xs={10} paddingLeft={1} >
+                <DbObjectDetails dbConnectionId={dbConnectionId} objectSelected={objectSelected.objectSelected}
+                                 />
             </Grid>
         </Grid>
     )

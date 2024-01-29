@@ -7,9 +7,8 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 
 export function FeatureNavLeft({onMainNavOptionSelected}) {
-
     return (
-        <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+        <Box sx={{ maxWidth: 250, bgcolor: 'background.paper' }}>
             <nav aria-label="main nav">
                 <List>
                     <ListItem disablePadding onClick={() => onMainNavOptionSelected("database")}>

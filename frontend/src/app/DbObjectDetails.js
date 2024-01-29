@@ -41,8 +41,8 @@ export default function DbObjectDetails({dbConnectionId, objectSelected}) {
     }, [dbOwnerStatus, dispatch]);
 
     return (
-        <Box>
-            <h2>{objectSelected}</h2>
+        <Box sx={{maxHeight: '90vh', overflowX: 'auto' }} >
+            <h2 style={{marginTop: 0}}>{objectSelected}</h2>
             <p>Owner: {dbOwner.data.db_owner}</p>
             <p>Comment: not sure how to get this yet</p>
 

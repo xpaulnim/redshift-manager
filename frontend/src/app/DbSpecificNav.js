@@ -29,29 +29,29 @@ export default function DbSpecificNav({dbConnectionId}) {
     return (
         <Box>
             <div hidden={componentState.currentDbConnectionId === null}>
-                <h1>Redshift manager {dbConnectionId}</h1>
+                <h2>Redshift manager {dbConnectionId}</h2>
 
-                <Grid container spacing={2}>
-                    <Grid item xs={2}>
-                        <FeatureNavLeft onMainNavOptionSelected={handleMainNavOptionSelected}/>
+                <Grid container>
+                    <Grid item xs={1.5} >
+                        <FeatureNavLeft onMainNavOptionSelected={handleMainNavOptionSelected} />
                     </Grid>
 
-                    <Grid item xs={10}>
-                        <div hidden={!(componentState.mainNavOptionSelected === 'database')}>
+                    <Grid item xs={10.5} >
+                        <Box hidden={!(componentState.mainNavOptionSelected === 'database')} >
                             <DbObjectExplorer dbConnectionId={dbConnectionId}/>
-                        </div>
+                        </Box>
 
-                        <div hidden={!(componentState.mainNavOptionSelected === 'users')}>
+                        <Box hidden={!(componentState.mainNavOptionSelected === 'users')}>
                             <UserManager dbConnectionId={dbConnectionId}/>
-                        </div>
+                        </Box>
 
-                        <div hidden={!(componentState.mainNavOptionSelected === 'masking')}>
+                        <Box hidden={!(componentState.mainNavOptionSelected === 'masking')}>
                             <MaskTablesComponent dbConnectionId={dbConnectionId}/>
-                        </div>
+                        </Box>
 
-                        <div hidden={componentState.currentDbConnectionId !== null}>
+                        <Box hidden={componentState.currentDbConnectionId !== null}>
                             <p>Click one of the db connections in the menu</p>
-                        </div>
+                        </Box>
                     </Grid>
                 </Grid>
             </div>
