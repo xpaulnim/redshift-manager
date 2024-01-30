@@ -44,26 +44,27 @@ function ColumnMaskDetailsComponent(props) {
 
     return (
         <Box>
-            <p style={{marginTop: 0}}>Name: {componentState.policy_name}</p>
-            <p>Modification date: {componentState.policy_modified_time}</p>
-            <p>Modified by: {componentState.policy_modified_by}</p>
-            <div>
-                <p>Policy</p>
-                <Box sx={{borderRadius: 1}} fontFamily={'monospace'}>
-                    <Box sx={{backgroundColor: '#eee', borderTopRightRadius: 3, borderTopLeftRadius: 3, padding: 0.5}}>
-                        <p>
-                            <b>Input columns:</b> { componentState.input_columns.map((col) => (<span>{col.colname} : {col.type}</span>)) }
-                        </p>
-                    </Box>
-                    <Box>
-                        {componentState.policy_expression.map((exp) => (
-                            <p>{exp.expr}</p>
-                        ))}
-                    </Box>
+            <p style={{marginTop: 0}}><b>Name:</b> {componentState.policy_name}</p>
+            <p><b>Modification date:</b> {componentState.policy_modified_time}</p>
+            <p><b>Modified by:</b> {componentState.policy_modified_by}</p>
+
+            <h4>Policy</h4>
+            <Box sx={{borderRadius: 1}} fontFamily={'monospace'}>
+                <Box sx={{backgroundColor: '#eee', borderTopRightRadius: 3, borderTopLeftRadius: 3, padding: 0.5}}>
+                    <p style={{margin: 0}}>
+                        <b style={{backgroundColor: '#ccc'}}>Input columns:</b> {componentState.input_columns.map((col) => (
+                        <span>{col.colname} : {col.type}</span>))}
+                    </p>
                 </Box>
-            </div>
+                <Box>
+                    {componentState.policy_expression.map((exp) => (
+                        <p>{exp.expr}</p>
+                    ))}
+                </Box>
+            </Box>
+
             <div>
-                <p>Policy attachments</p>
+                <h4>Policy attachments</h4>
 
                 <TableContainer component={Paper}>
                     <Table size="small">
@@ -115,11 +116,11 @@ export default function MaskTablesComponent({dbConnectionId}) {
     return (
         <Box>
             <Grid container>
-                <Grid xs={3} sx={{maxHeight: '92vh', maxWidth: 250, overflow: 'auto'}}>
+                <Grid xs={3} sx={{maxWidth: 250}}>
                     <Stack>
                         <TextField label="Filter" id="outlined-basic" variant="outlined" size="small" margin="normal"/>
 
-                        <List dense={true}>
+                        <List dense={true} sx={{maxHeight: '85vh', overflow: 'auto'}}>
                             {maskingPolicies.data.map((mask) => (
                                 <ListItem disablePadding key={mask.policy_name}>
                                     <ListItemButton onClick={() => {
