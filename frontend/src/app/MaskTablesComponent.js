@@ -44,20 +44,23 @@ function ColumnMaskDetailsComponent(props) {
 
     return (
         <Box>
-            <p>Policy name: {componentState.policy_name}</p>
+            <p style={{marginTop: 0}}>Name: {componentState.policy_name}</p>
             <p>Modification date: {componentState.policy_modified_time}</p>
             <p>Modified by: {componentState.policy_modified_by}</p>
-
             <div>
-                <div>
-                    Input columns: { componentState.input_columns.map((col) => (
-                        <span>{col.colname} : {col.type}</span>
-                    )) }
-                </div>
-                <p>Policy expression</p>
-                { componentState.policy_expression.map((exp) => (
-                    <p>{exp.expr}</p>
-                )) }
+                <p>Policy</p>
+                <Box sx={{borderRadius: 1}} fontFamily={'monospace'}>
+                    <Box sx={{backgroundColor: '#eee', borderTopRightRadius: 3, borderTopLeftRadius: 3, padding: 0.5}}>
+                        <p>
+                            <b>Input columns:</b> { componentState.input_columns.map((col) => (<span>{col.colname} : {col.type}</span>)) }
+                        </p>
+                    </Box>
+                    <Box>
+                        {componentState.policy_expression.map((exp) => (
+                            <p>{exp.expr}</p>
+                        ))}
+                    </Box>
+                </Box>
             </div>
             <div>
                 <p>Policy attachments</p>
@@ -75,7 +78,7 @@ function ColumnMaskDetailsComponent(props) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            { componentState.get_masking_policy_attachments.map((attachment) => (
+                            {componentState.get_masking_policy_attachments.map((attachment) => (
                                 <TableRow key={attachment.schema_name}>
                                     <TableCell align="left">{attachment.schema_name}.{attachment.table_name}</TableCell>
                                     <TableCell align="left">{attachment.grantor}</TableCell>
@@ -84,7 +87,7 @@ function ColumnMaskDetailsComponent(props) {
                                     <TableCell align="left">{attachment.input_columns}</TableCell>
                                     <TableCell align="left">{attachment.output_columns}</TableCell>
                                 </TableRow>
-                            )) }
+                            ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
@@ -110,9 +113,9 @@ export default function MaskTablesComponent({dbConnectionId}) {
     }, [dbConnectionId])
 
     return (
-        <Box sx={{width: '100%', bgcolor: 'background.paper'}}>
-            <Grid container spacing={3}>
-                <Grid xs={3}>
+        <Box>
+            <Grid container>
+                <Grid xs={3} sx={{maxHeight: '92vh', maxWidth: 250, overflow: 'auto'}}>
                     <Stack>
                         <TextField label="Filter" id="outlined-basic" variant="outlined" size="small" margin="normal"/>
 
@@ -131,7 +134,7 @@ export default function MaskTablesComponent({dbConnectionId}) {
                     </Stack>
                 </Grid>
 
-                <Grid xs={9}>
+                <Grid xs={9} sx={{paddingLeft: 3}}>
                     <ColumnMaskDetailsComponent mask={componentState}/>
                 </Grid>
             </Grid>

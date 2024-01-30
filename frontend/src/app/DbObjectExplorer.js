@@ -36,8 +36,7 @@ export function DbObjectExplorer({dbConnectionId}) {
             </Grid>
 
             <Grid item xs={10} paddingLeft={1} >
-                <DbObjectDetails dbConnectionId={dbConnectionId} objectSelected={objectSelected.objectSelected}
-                                 />
+                <DbObjectDetails dbConnectionId={dbConnectionId} objectSelected={objectSelected.objectSelected} />
             </Grid>
         </Grid>
     )
