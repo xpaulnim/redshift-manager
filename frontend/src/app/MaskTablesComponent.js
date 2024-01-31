@@ -17,7 +17,6 @@ import {
 } from "@mui/material"
 import React, {useEffect, useState} from "react"
 import {useDispatch, useSelector} from "react-redux"
-import {fetchMaskingPoliciesThunk} from "../features/fetchMaskingPoliciesSlice"
 
 function ColumnMaskDetailsComponent(props) {
     const [componentState, setComponentState] = useState({
@@ -100,7 +99,6 @@ function ColumnMaskDetailsComponent(props) {
 export default function MaskTablesComponent({dbConnectionId}) {
     const [componentState, setComponentState] = useState("")
 
-    const dispatch = useDispatch()
     const maskingPolicies = useSelector(state => state.maskingPolicies)
     const maskingPoliciesStatus = useSelector(state => state.maskingPolicies.status)
 
@@ -109,7 +107,7 @@ export default function MaskTablesComponent({dbConnectionId}) {
 
         if (maskingPoliciesStatus === 'init' && dbConnectionId !== null) {
             console.log('dispatched: ' + dbConnectionId)
-            dispatch(fetchMaskingPoliciesThunk({"dbConnectionId": dbConnectionId}))
+            // dispatch(fetchMaskingPoliciesThunk({"dbConnectionId": dbConnectionId}))
         }
     }, [dbConnectionId])
 

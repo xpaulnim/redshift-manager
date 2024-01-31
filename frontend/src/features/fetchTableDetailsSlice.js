@@ -26,7 +26,9 @@ const fetchTableDetailsSlice = createSlice({
     initialState: initialTableDetailsState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(fetchTableDetailsThunk.fulfilled, (state, action) => {
+        builder.addCase(fetchTableDetailsThunk.pending, (state, args) => {
+            state.status = 'pending'
+        }).addCase(fetchTableDetailsThunk.fulfilled, (state, action) => {
             state.status = 'fulfilled'
             state.data = action.payload.data
         }).addCase(fetchTableDetailsThunk.rejected, (state, action) => {

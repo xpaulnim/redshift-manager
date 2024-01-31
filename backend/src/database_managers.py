@@ -1,9 +1,8 @@
 import json
-import os
 from abc import ABC, abstractmethod
 from typing import Tuple, List, Union
 
-from db_util import DbClient, PostgresClient, RedshiftClient
+from db_util import PostgresClient, RedshiftClient
 
 
 class DatabaseManager(ABC):
@@ -564,21 +563,22 @@ class RedshiftManager(PostgresManager):
     def get_db_schema_details(self):
         query = f"""
         select schema_name,
-               schema_owner,
+               pg_get_userbyid(schema_owner),
                schema_type
         from svv_redshift_schemas
-        left join pg_user u on schema_owner = u.usesysid
         where database_name = '{self.db_name}'
         """
 
         schema_details = []
-        for _, schema_name, schema_owner in self.db_client.query(query):
-            schema_details.append(
-                {
-                    "schema_name": schema_name,
-                    "schema_owner": schema_owner,
-                }
-            )
+        for batch in self.db_client.query(query=query):
+            for schema_name, schema_owner, schema_type in batch:
+                schema_details.append(
+                    {
+                        "schema_name": schema_name,
+                        "schema_owner": schema_owner,
+                        "schema_type": schema_type,
+                    }
+                )
 
         return schema_details
 

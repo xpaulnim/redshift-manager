@@ -24,17 +24,16 @@ function objectTypeFromName(fullObjectName) {
 }
 
 export default function DbObjectDetails({dbConnectionId, objectSelected}) {
-    const objectType = objectTypeFromName(objectSelected)
-
     const dispatch = useDispatch()
     const dbOwner = useSelector(state => state.dbOwner)
     const dbOwnerStatus = useSelector(state => state.dbOwner.status)
+    const objectType = objectTypeFromName(objectSelected)
 
     useEffect(() => {
         console.log("objectSelected " + objectSelected)
         console.log("dbConnectionId " + dbConnectionId)
 
-        if (dbOwnerStatus === 'init') {
+        if (dbOwnerStatus === 'init' && objectSelected !== '') {
             console.log('dispatched: ' + dbConnectionId)
             dispatch(fetchDatabaseOwnerThunk({"dbConnectionId": dbConnectionId, "databaseName": objectSelected}))
         }
@@ -49,7 +48,7 @@ export default function DbObjectDetails({dbConnectionId, objectSelected}) {
             <div hidden={!(objectType === 'database')}>
                 <h3>database {objectSelected} selected</h3>
 
-                <DatabaseDetailsTab database={dbOwner.data.db_name}/>
+                <DatabaseDetailsTab dbConnectionId={dbConnectionId} database={objectSelected}/>
             </div>
 
             <div hidden={!(objectType === 'schema')}>

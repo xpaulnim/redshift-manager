@@ -1,14 +1,13 @@
-import React, {useEffect, useState} from "react"
+import React, {useState} from "react"
 import {Grid, Stack, Box, TextField} from "@mui/material"
 import DbObjectDetails from "./DbObjectDetails"
 import {DbObjectTreeView} from "./DbObjectTreeView"
 import {useDispatch, useSelector} from "react-redux"
 import {fetchDbOutlineThunk} from "../features/fetchDbOutlineSlice"
-import {fetchTablesInSchemaThunk} from "../features/fetchTablesInSchemaSlice"
 
 export function DbObjectExplorer({dbConnectionId}) {
     const [objectSelected, showObjectDetails] = useState({
-        "objectSelected": ""
+        "objectSelected": ''
     })
 
     const dispatch = useDispatch()
@@ -25,7 +24,7 @@ export function DbObjectExplorer({dbConnectionId}) {
                 <Stack item>
                     <TextField label="Filter" id="outlined-basic" variant="outlined" size="small"/>
 
-                    <Box  >
+                    <Box >
                         <DbObjectTreeView
                             databaseOutline={dbOutline.data}
                             onDbObjectSelected={showObjectDetails}

@@ -48,6 +48,7 @@ export function DbObjectTreeView({databaseOutline, onDbObjectSelected}) {
             {
                 Object.entries(databaseOutline).map(([database_name, schema_obj]) =>
                     <DatabaseTreeItemComponent
+                        key={database_name}
                         database_name={database_name}
                         schema_obj={schema_obj}
                         onDbObjectSelected={onDbObjectSelected}/>

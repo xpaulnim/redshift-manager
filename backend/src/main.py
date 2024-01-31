@@ -1,4 +1,3 @@
-from pathlib import Path
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from app_db import AppDb
@@ -72,7 +71,7 @@ def database_owner(db_connection_id: int, db_name: str):
     return {"data": {"db_owner": db_owner, "db_name": _db_name}}
 
 
-@app.get("/{db_connection_id}/database/schemas")
+@app.get("/{db_connection_id}/{db_name}/schemas")
 def db_schema_details(db_connection_id: int, db_name: str):
     db_service = global_db_service(db_connection_id, db_name)
     schema_details = db_service.get_db_schema_details()
